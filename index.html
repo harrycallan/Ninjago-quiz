@@ -3,1155 +3,683 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111111">
-
 <title>Ninjago Master Quiz</title>
 
 <style>
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #111111, #252525);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #111111, #252525);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-.quiz {
-    width: 100%;
-    max-width: 700px;
-    background: #1d1d1d;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+.container {
+  width: 100%;
+  max-width: 650px;
+}
+
+.card {
+  background: #1d1d1d;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.45);
+  text-align: center;
 }
 
 h1 {
-    text-align: center;
-    margin-top: 0;
-    font-size: 32px;
+  font-size: 34px;
+  margin-top: 0;
 }
 
-.subtitle {
-    text-align: center;
-    color: #bbbbbb;
-    margin-bottom: 25px;
+h2 {
+  font-size: 25px;
 }
 
-.top {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    font-weight: bold;
+p {
+  font-size: 18px;
+  line-height: 1.5;
 }
 
-#difficulty {
-    color: #ffcc00;
+button {
+  width: 100%;
+  padding: 16px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 12px;
+  background: #333333;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-#question {
-    font-size: 24px;
-    line-height: 1.4;
-    margin: 25px 0;
-    text-align: center;
+button:hover {
+  background: #444444;
+  transform: scale(1.01);
 }
 
-.answer {
-    width: 100%;
-    padding: 16px;
-    margin: 8px 0;
-    border: 2px solid #444;
-    border-radius: 12px;
-    background: #303030;
-    color: white;
-    font-size: 17px;
-    cursor: pointer;
-    transition: 0.2s;
+button:active {
+  transform: scale(0.98);
 }
 
-.answer:hover {
-    background: #454545;
+.start-button {
+  background: #e63946;
+  font-weight: bold;
 }
 
-.answer:disabled {
-    cursor: default;
+.start-button:hover {
+  background: #ff4d5a;
+}
+
+.answer-button {
+  text-align: left;
 }
 
 .correct {
-    background: #16803c !important;
-    border-color: #35d878 !important;
+  background: #16803c !important;
 }
 
 .wrong {
-    background: #a52a2a !important;
-    border-color: #ff6666 !important;
+  background: #a51d2d !important;
 }
 
-.actionButton {
-    width: 100%;
-    margin-top: 20px;
-    padding: 15px;
-    border: none;
-    border-radius: 12px;
-    background: #ffcc00;
-    color: #111;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+.hidden {
+  display: none;
 }
 
-.actionButton:hover {
-    background: #ffe066;
+.score {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 20px 0;
 }
 
-#nextButton {
-    display: none;
+.progress {
+  color: #aaaaaa;
+  margin-bottom: 20px;
 }
 
-#resultScreen,
-#ninjaQuizScreen,
-#ninjaResultScreen {
-    display: none;
-}
-
-#finalScore {
-    font-size: 42px;
-    text-align: center;
-    color: #ffcc00;
-    margin: 20px 0;
-}
-
-#rank,
-#ninjaResult {
-    text-align: center;
-    font-size: 21px;
-    line-height: 1.5;
-}
-
-.secondaryButton {
-    width: 100%;
-    margin-top: 12px;
-    padding: 15px;
-    border: 2px solid #ffcc00;
-    border-radius: 12px;
-    background: transparent;
-    color: #ffcc00;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.secondaryButton:hover {
-    background: #333;
+.result {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 20px 0;
 }
 </style>
 </head>
 
 <body>
 
-<div class="quiz">
+<div class="container">
 
-<!-- ========================= -->
-<!-- MAIN QUIZ -->
-<!-- ========================= -->
+  <!-- HOME -->
+  <div id="home" class="card">
+    <h1>🥷 NINJAGO QUIZ 🥷</h1>
+    <p>How well do you know Ninjago?</p>
 
-<div id="mainQuiz">
+    <button class="start-button" onclick="startQuiz1()">
+      Start Ninjago Knowledge Quiz
+    </button>
 
-<h1>🥷 NINJAGO QUIZ 🥷</h1>
-
-<div class="subtitle">
-How well do you know Ninjago?
-</div>
-
-<div class="top">
-    <span id="progress"></span>
-    <span id="difficulty"></span>
-</div>
-
-<div id="question"></div>
-
-<div id="answers"></div>
-
-<button
-    id="nextButton"
-    class="actionButton">
-    Next Question →
-</button>
-
-</div>
+    <button class="start-button" onclick="startQuiz2()">
+      Start Ninja Personality Quiz
+    </button>
+  </div>
 
 
-<!-- ========================= -->
-<!-- MAIN QUIZ RESULTS -->
-<!-- ========================= -->
+  <!-- QUIZ 1 -->
+  <div id="quiz1" class="card hidden">
+    <div class="progress" id="quiz1Progress"></div>
 
-<div id="resultScreen">
+    <h2 id="quiz1Question"></h2>
 
-<h1>🏆 QUIZ COMPLETE 🏆</h1>
-
-<div id="finalScore"></div>
-
-<div id="rank"></div>
-
-<button
-    id="restartButton"
-    class="actionButton">
-    🔄 Play Again
-</button>
-
-<button
-    id="goNinjaButton"
-    class="secondaryButton">
-    🥷 Which Ninja Are You?
-</button>
-
-</div>
+    <div id="quiz1Answers"></div>
+  </div>
 
 
-<!-- ========================= -->
-<!-- WHICH NINJA ARE YOU -->
-<!-- ========================= -->
+  <!-- QUIZ 1 RESULT -->
+  <div id="quiz1Result" class="card hidden">
+    <h1>🥷 Quiz Complete!</h1>
 
-<div id="ninjaQuizScreen">
+    <div class="score" id="quiz1Score"></div>
 
-<h1>🥷 WHICH NINJA ARE YOU?</h1>
+    <p id="quiz1Message"></p>
 
-<div class="subtitle">
-Choose the answer that sounds most like you.
-</div>
+    <button class="start-button" onclick="startQuiz2()">
+      Take the Ninja Personality Quiz
+    </button>
 
-<div class="top">
-    <span id="ninjaProgress"></span>
-</div>
-
-<div id="ninjaQuestion"></div>
-
-<div id="ninjaAnswers"></div>
-
-<button
-    id="ninjaNextButton"
-    class="actionButton"
-    style="display:none;">
-    Next Question →
-</button>
-
-</div>
+    <button onclick="goHome()">
+      Back to Home
+    </button>
+  </div>
 
 
-<!-- ========================= -->
-<!-- NINJA RESULTS -->
-<!-- ========================= -->
+  <!-- QUIZ 2 -->
+  <div id="quiz2" class="card hidden">
+    <div class="progress" id="quiz2Progress"></div>
 
-<div id="ninjaResultScreen">
+    <h2 id="quiz2Question"></h2>
 
-<h1>🥷 YOUR NINJA IS...</h1>
+    <div id="quiz2Answers"></div>
+  </div>
 
-<div id="ninjaResult"></div>
 
-<button
-    id="ninjaAgainButton"
-    class="actionButton">
-    🔄 Try Again
-</button>
+  <!-- QUIZ 2 RESULT -->
+  <div id="quiz2Result" class="card hidden">
+    <h1>🥷 Your Ninja Result 🥷</h1>
 
-<button
-    id="backToMainButton"
-    class="secondaryButton">
-    🏆 Back To Main Quiz
-</button>
+    <div class="result" id="ninjaResult"></div>
+
+    <p id="ninjaDescription"></p>
+
+    <button class="start-button" onclick="startQuiz1()">
+      Play Knowledge Quiz Again
+    </button>
+
+    <button onclick="goHome()">
+      Back to Home
+    </button>
+  </div>
 
 </div>
 
 
 <script>
 
-/* =====================================
-   MAIN NINJAGO QUIZ
-===================================== */
+/* =========================================================
+   QUIZ 1 — NINJAGO KNOWLEDGE
+========================================================= */
 
-const questions = [
+const quiz1Questions = [
 
-{
-question: "What element does Kai control?",
-answers: ["Fire", "Lightning", "Earth", "Ice"],
-correct: "Fire",
-difficulty: "EASY"
-},
+  {
+    question: "Who is the Green Ninja?",
+    answers: ["Kai", "Lloyd", "Jay", "Cole"],
+    correct: 1
+  },
 
-{
-question: "What element does Jay control?",
-answers: ["Fire", "Lightning", "Ice", "Earth"],
-correct: "Lightning",
-difficulty: "EASY"
-},
+  {
+    question: "Which ninja is associated with fire?",
+    answers: ["Kai", "Zane", "Cole", "Jay"],
+    correct: 0
+  },
 
-{
-question: "What element does Cole control?",
-answers: ["Earth", "Fire", "Water", "Wind"],
-correct: "Earth",
-difficulty: "EASY"
-},
+  {
+    question: "Which ninja is associated with lightning?",
+    answers: ["Cole", "Jay", "Kai", "Zane"],
+    correct: 1
+  },
 
-{
-question: "What element does Zane control?",
-answers: ["Ice", "Lightning", "Fire", "Energy"],
-correct: "Ice",
-difficulty: "EASY"
-},
+  {
+    question: "Which ninja is associated with ice?",
+    answers: ["Zane", "Lloyd", "Kai", "Cole"],
+    correct: 0
+  },
 
-{
-question: "What element does Nya control?",
-answers: ["Water", "Wind", "Earth", "Fire"],
-correct: "Water",
-difficulty: "EASY"
-},
+  {
+    question: "Which ninja is associated with earth?",
+    answers: ["Jay", "Cole", "Zane", "Kai"],
+    correct: 1
+  },
 
-{
-question: "What is Lloyd's elemental power?",
-answers: ["Energy", "Fire", "Earth", "Lightning"],
-correct: "Energy",
-difficulty: "EASY"
-},
+  {
+    question: "Who is the leader of the ninja team?",
+    answers: ["Kai", "Lloyd", "Jay", "Cole"],
+    correct: 1
+  },
 
-{
-question: "Who is Lloyd's mother?",
-answers: ["Misako", "Maya", "Lilly", "Faith"],
-correct: "Misako",
-difficulty: "EASY"
-},
+  {
+    question: "What is the name of the ninja's flying ship?",
+    answers: ["Destiny's Bounty", "Lightning Raider", "Bounty Hunter", "Ninja Flyer"],
+    correct: 0
+  },
 
-{
-question: "What is Cole's mother's name?",
-answers: ["Lilly", "Misako", "Maya", "Sally"],
-correct: "Lilly",
-difficulty: "MEDIUM"
-},
+  {
+    question: "What is Lloyd's main element?",
+    answers: ["Fire", "Energy", "Ice", "Earth"],
+    correct: 1
+  },
 
-{
-question: "Who is the last of the Anacondrai?",
-answers: ["Pythor", "Skales", "Fangtom", "Skalidor"],
-correct: "Pythor",
-difficulty: "MEDIUM"
-},
+  {
+    question: "Who is the blue ninja?",
+    answers: ["Jay", "Kai", "Cole", "Zane"],
+    correct: 0
+  },
 
-{
-question: "Who was the first student trained by Master Wu?",
-answers: ["Morro", "Kai", "Cole", "Jay"],
-correct: "Morro",
-difficulty: "MEDIUM"
-},
-
-{
-question: "Who released the Great Devourer?",
-answers: ["Pythor", "Garmadon", "Skales", "Chen"],
-correct: "Pythor",
-difficulty: "MEDIUM"
-},
-
-{
-question: "Which ninja became a ghost?",
-answers: ["Cole", "Jay", "Kai", "Zane"],
-correct: "Cole",
-difficulty: "MEDIUM"
-},
-
-{
-question: "What was Morro's elemental power?",
-answers: ["Wind", "Water", "Energy", "Shadow"],
-correct: "Wind",
-difficulty: "HARD"
-},
-
-{
-question: "Who was the leader of the Stone Army?",
-answers: ["General Kozu", "General Cryptor", "General Vex", "General Machia"],
-correct: "General Kozu",
-difficulty: "HARD"
-},
-
-{
-question: "Which Golden Weapon represents Earth?",
-answers: [
-"Scythe of Quakes",
-"Sword of Fire",
-"Nunchucks of Lightning",
-"Shurikens of Ice"
-],
-correct: "Scythe of Quakes",
-difficulty: "HARD"
-},
-
-{
-question: "What is Skylor's elemental power?",
-answers: ["Amber", "Energy", "Smoke", "Metal"],
-correct: "Amber",
-difficulty: "HARD"
-},
-
-{
-question: "Which elemental master controls Smoke?",
-answers: ["Ash", "Shade", "Bolobo", "Karlof"],
-correct: "Ash",
-difficulty: "HARD"
-},
-
-{
-question: "Which elemental master controls Nature?",
-answers: ["Bolobo", "Ash", "Shade", "Griffin Turner"],
-correct: "Bolobo",
-difficulty: "VERY HARD"
-},
-
-{
-question: "Which elemental master controls Speed?",
-answers: ["Griffin Turner", "Karlof", "Shade", "Jacob"],
-correct: "Griffin Turner",
-difficulty: "VERY HARD"
-},
-
-{
-question: "Which elemental master controls Metal?",
-answers: ["Karlof", "Ash", "Bolobo", "Shade"],
-correct: "Karlof",
-difficulty: "VERY HARD"
-},
-
-{
-question: "Which elemental master controls Shadow?",
-answers: ["Shade", "Ash", "Bolobo", "Jacob"],
-correct: "Shade",
-difficulty: "VERY HARD"
-},
-
-{
-question: "Which Serpentine tribe specializes in hypnosis?",
-answers: ["Hypnobrai", "Venomari", "Fangpyre", "Constrictai"],
-correct: "Hypnobrai",
-difficulty: "VERY HARD"
-},
-
-{
-question: "Which Serpentine tribe specializes in poison?",
-answers: ["Venomari", "Hypnobrai", "Fangpyre", "Constrictai"],
-correct: "Venomari",
-difficulty: "VERY HARD"
-},
-
-{
-question: "Which Serpentine tribe was known for enormous strength?",
-answers: ["Constrictai", "Hypnobrai", "Venomari", "Fangpyre"],
-correct: "Constrictai",
-difficulty: "VERY HARD"
-},
-
-{
-question: "Who created the Nindroids?",
-answers: ["Dr. Cyrus Borg", "Dr. Julien", "Master Chen", "The Overlord"],
-correct: "Dr. Cyrus Borg",
-difficulty: "EXPERT"
-},
-
-{
-question: "Who was the leader of the Time Twins?",
-answers: ["Krux", "Acronix", "Chen", "Clouse"],
-correct: "Krux",
-difficulty: "EXPERT"
-},
-
-{
-question: "What are the four Time Blades?",
-answers: [
-"Forward, Reverse, Pause, Slow-Mo",
-"Past, Present, Future, Eternity",
-"Speed, Stop, Reverse, Advance",
-"Time, Space, Age, Future"
-],
-correct: "Forward, Reverse, Pause, Slow-Mo",
-difficulty: "EXPERT"
-},
-
-{
-question: "What was the name of Chen's island?",
-answers: ["Chen's Island", "Stiix", "Dark Island", "Djinjago"],
-correct: "Chen's Island",
-difficulty: "EXPERT"
-},
-
-{
-question: "What were the names of the First Spinjitzu Master's two sons?",
-answers: [
-"Wu and Garmadon",
-"Lloyd and Garmadon",
-"Wu and Morro",
-"Garmadon and Chen"
-],
-correct: "Wu and Garmadon",
-difficulty: "FINAL BOSS"
-},
-
-{
-question: "Who is known as the Master of Ice?",
-answers: ["Zane", "Kai", "Cole", "Jay"],
-correct: "Zane",
-difficulty: "FINAL BOSS"
-}
+  {
+    question: "Who is the black ninja?",
+    answers: ["Cole", "Jay", "Kai", "Lloyd"],
+    correct: 0
+  }
 
 ];
 
-
-/* =====================================
-   MAIN QUIZ VARIABLES
-===================================== */
-
-let currentQuestion = 0;
-let score = 0;
-
-const questionElement =
-document.getElementById("question");
-
-const answersElement =
-document.getElementById("answers");
-
-const nextButton =
-document.getElementById("nextButton");
-
-const progressElement =
-document.getElementById("progress");
-
-const difficultyElement =
-document.getElementById("difficulty");
+let quiz1Current = 0;
+let quiz1Score = 0;
 
 
-/* =====================================
-   MAIN QUIZ
-===================================== */
+/* Start Quiz 1 */
 
-function showQuestion() {
+function startQuiz1() {
 
-const q = questions[currentQuestion];
+  hideAll();
 
-progressElement.textContent =
-"Question " +
-(currentQuestion + 1) +
-" / " +
-questions.length;
+  document.getElementById("quiz1").classList.remove("hidden");
 
-difficultyElement.textContent =
-q.difficulty;
+  quiz1Current = 0;
+  quiz1Score = 0;
 
-questionElement.textContent =
-q.question;
-
-answersElement.innerHTML = "";
-
-nextButton.style.display = "none";
-
-
-q.answers.forEach(function(answer) {
-
-const button =
-document.createElement("button");
-
-button.className = "answer";
-
-button.textContent = answer;
-
-button.onclick = function() {
-
-selectAnswer(button, answer, q.correct);
-
-};
-
-answersElement.appendChild(button);
-
-});
-
+  showQuiz1Question();
 }
 
 
-function selectAnswer(
-button,
-selected,
-correct
-) {
+/* Show Quiz 1 Question */
 
-const buttons =
-document.querySelectorAll("#answers .answer");
+function showQuiz1Question() {
 
-buttons.forEach(function(btn) {
+  const question = quiz1Questions[quiz1Current];
 
-btn.disabled = true;
+  document.getElementById("quiz1Progress").textContent =
+    "Question " + (quiz1Current + 1) +
+    " of " + quiz1Questions.length;
 
-if (btn.textContent === correct) {
+  document.getElementById("quiz1Question").textContent =
+    question.question;
 
-btn.classList.add("correct");
+  const answersDiv =
+    document.getElementById("quiz1Answers");
 
-}
+  answersDiv.innerHTML = "";
 
-});
+  question.answers.forEach(function(answer, index) {
 
+    const button = document.createElement("button");
 
-if (selected === correct) {
+    button.className = "answer-button";
 
-score++;
+    button.textContent =
+      String.fromCharCode(65 + index) + ". " + answer;
 
-button.classList.add("correct");
+    button.onclick = function() {
+      answerQuiz1(index, button);
+    };
 
-} else {
+    answersDiv.appendChild(button);
 
-button.classList.add("wrong");
-
-}
-
-nextButton.style.display = "block";
-
-}
-
-
-nextButton.onclick = function() {
-
-currentQuestion++;
-
-if (currentQuestion >= questions.length) {
-
-showMainResults();
-
-} else {
-
-showQuestion();
-
-}
-
-};
-
-
-/* =====================================
-   MAIN RESULTS
-===================================== */
-
-function showMainResults() {
-
-document.getElementById("mainQuiz")
-.style.display = "none";
-
-document.getElementById("resultScreen")
-.style.display = "block";
-
-const percentage =
-Math.round(
-(score / questions.length) * 100
-);
-
-document.getElementById("finalScore")
-.textContent =
-score +
-" / " +
-questions.length +
-" (" +
-percentage +
-"%)";
-
-
-let rank;
-
-
-if (percentage === 100) {
-
-rank =
-"👑 FIRST SPINJITZU MASTER LEVEL 👑<br><br>" +
-"Perfect score! You are a Ninjago legend.";
-
-}
-
-else if (percentage >= 90) {
-
-rank =
-"🐉 LEGENDARY NINJA<br><br>" +
-"Your Ninjago knowledge is INSANE.";
-
-}
-
-else if (percentage >= 75) {
-
-rank =
-"🥷 MASTER OF SPINJITZU<br><br>" +
-"You are a true Ninjago expert.";
-
-}
-
-else if (percentage >= 60) {
-
-rank =
-"⚔️ ELITE NINJA<br><br>" +
-"Very impressive.";
-
-}
-
-else if (percentage >= 40) {
-
-rank =
-"🔥 NINJA IN TRAINING<br><br>" +
-"Keep training!";
-
-}
-
-else {
-
-rank =
-"🐍 THE SERPENTINE WON<br><br>" +
-"Back to the monastery!";
-
+  });
 }
 
 
-document.getElementById("rank")
-.innerHTML = rank;
+/* Answer Quiz 1 */
 
+function answerQuiz1(selected, clickedButton) {
+
+  const question = quiz1Questions[quiz1Current];
+
+  const buttons =
+    document.querySelectorAll("#quiz1Answers button");
+
+  buttons.forEach(function(button) {
+    button.disabled = true;
+  });
+
+  if (selected === question.correct) {
+
+    quiz1Score++;
+
+    clickedButton.classList.add("correct");
+
+  } else {
+
+    clickedButton.classList.add("wrong");
+
+    buttons[question.correct].classList.add("correct");
+
+  }
+
+  setTimeout(function() {
+
+    quiz1Current++;
+
+    if (quiz1Current < quiz1Questions.length) {
+
+      showQuiz1Question();
+
+    } else {
+
+      showQuiz1Result();
+
+    }
+
+  }, 700);
 }
 
 
-/* =====================================
-   RESTART MAIN QUIZ
-===================================== */
+/* Quiz 1 Result */
 
-document.getElementById("restartButton")
-.onclick = function() {
+function showQuiz1Result() {
 
-currentQuestion = 0;
-score = 0;
+  hideAll();
 
-document.getElementById("resultScreen")
-.style.display = "none";
+  document.getElementById("quiz1Result").classList.remove("hidden");
 
-document.getElementById("mainQuiz")
-.style.display = "block";
+  document.getElementById("quiz1Score").textContent =
+    quiz1Score + " / " + quiz1Questions.length;
 
-showQuestion();
+  let message;
 
-};
+  if (quiz1Score === quiz1Questions.length) {
 
+    message = "Master level! You really know your Ninjago! 🥷";
 
-/* =====================================
-   WHICH NINJA ARE YOU?
-===================================== */
+  } else if (quiz1Score >= 7) {
 
-const ninjaQuestions = [
+    message = "Amazing! You know Ninjago really well!";
 
-{
-question: "Your friend is in danger. What do you do?",
+  } else if (quiz1Score >= 5) {
 
-answers: [
-{
-text: "Protect them no matter what",
-ninja: "Lloyd"
-},
-{
-text: "Make a clever plan",
-ninja: "Sora"
-},
-{
-text: "Charge straight into battle",
-ninja: "Kai"
-},
-{
-text: "Stay calm and think",
-ninja: "Zane"
+    message = "Pretty good! You know your ninja stuff.";
+
+  } else {
+
+    message = "Keep training, ninja! You can do better next time.";
+
+  }
+
+  document.getElementById("quiz1Message").textContent =
+    message;
 }
-]
-},
 
-{
-question: "What sounds like the most fun?",
 
-answers: [
-{
-text: "Going on an adventure",
-ninja: "Lloyd"
-},
-{
-text: "Building something awesome",
-ninja: "Sora"
-},
-{
-text: "Training and fighting",
-ninja: "Kai"
-},
-{
-text: "Making everyone laugh",
-ninja: "Jay"
-}
-},
+/* =========================================================
+   QUIZ 2 — NINJA PERSONALITY
+========================================================= */
 
-{
-question: "Which describes your personality best?",
+const quiz2Questions = [
 
-answers: [
-{
-text: "Brave",
-ninja: "Kai"
-},
-{
-text: "Caring",
-ninja: "Nya"
-},
-{
-text: "Strong",
-ninja: "Cole"
-},
-{
-text: "Smart",
-ninja: "Zane"
-}
-},
+  {
+    question: "A villain attacks! What do you do?",
+    answers: [
+      "Charge straight into battle!",
+      "Make a clever plan first.",
+      "Protect everyone around me.",
+      "Use a funny distraction!"
+    ],
+    scores: {
+      0: "Kai",
+      1: "Zane",
+      2: "Cole",
+      3: "Jay"
+    }
+  },
 
-{
-question: "What would your friends say about you?",
+  {
+    question: "Which power would you choose?",
+    answers: [
+      "Fire",
+      "Ice",
+      "Earth",
+      "Lightning"
+    ],
+    scores: {
+      0: "Kai",
+      1: "Zane",
+      2: "Cole",
+      3: "Jay"
+    }
+  },
 
-answers: [
-{
-text: "I am a natural leader",
-ninja: "Lloyd"
-},
-{
-text: "I am funny",
-ninja: "Jay"
-},
-{
-text: "I am loyal",
-ninja: "Cole"
-},
-{
-text: "I am creative",
-ninja: "Sora"
-}
-},
+  {
+    question: "What describes you best?",
+    answers: [
+      "Brave and energetic",
+      "Calm and intelligent",
+      "Strong and dependable",
+      "Funny and energetic"
+    ],
+    scores: {
+      0: "Kai",
+      1: "Zane",
+      2: "Cole",
+      3: "Jay"
+    }
+  },
 
-{
-question: "Pick a fighting style.",
+  {
+    question: "Your team needs help. What is your biggest strength?",
+    answers: [
+      "Courage",
+      "Intelligence",
+      "Strength",
+      "Creativity"
+    ],
+    scores: {
+      0: "Kai",
+      1: "Zane",
+      2: "Cole",
+      3: "Jay"
+    }
+  },
 
-answers: [
-{
-text: "Fast and aggressive",
-ninja: "Kai"
-},
-{
-text: "Powerful attacks",
-ninja: "Cole"
-},
-{
-text: "Quick and clever",
-ninja: "Jay"
-},
-{
-text: "Precise and calculated",
-ninja: "Zane"
-}
-},
+  {
+    question: "Pick a place to train.",
+    answers: [
+      "A volcano",
+      "A snowy mountain",
+      "A rocky cave",
+      "A high-tech workshop"
+    ],
+    scores: {
+      0: "Kai",
+      1: "Zane",
+      2: "Cole",
+      3: "Jay"
+    }
+  },
 
-{
-question: "What matters most to you?",
-
-answers: [
-{
-text: "Protecting people",
-ninja: "Lloyd"
-},
-{
-text: "Family",
-ninja: "Nya"
-},
-{
-text: "Having fun",
-ninja: "Jay"
-},
-{
-text: "Learning new things",
-ninja: "Sora"
-}
-}
+  {
+    question: "What matters most to you?",
+    answers: [
+      "Courage",
+      "Knowledge",
+      "Loyalty",
+      "Having fun"
+    ],
+    scores: {
+      0: "Kai",
+      1: "Zane",
+      2: "Cole",
+      3: "Jay"
+    }
+  }
 
 ];
 
+let quiz2Current = 0;
 
-let ninjaCurrentQuestion = 0;
-
-let ninjaScores = {};
-
-
-/* =====================================
-   START NINJA QUIZ
-===================================== */
-
-function startNinjaQuiz() {
-
-ninjaCurrentQuestion = 0;
-
-ninjaScores = {
-
-Lloyd: 0,
-Sora: 0,
-Kai: 0,
-Zane: 0,
-Jay: 0,
-Nya: 0,
-Cole: 0
-
-};
-
-document.getElementById("mainQuiz")
-.style.display = "none";
-
-document.getElementById("resultScreen")
-.style.display = "none";
-
-document.getElementById("ninjaResultScreen")
-.style.display = "none";
-
-document.getElementById("ninjaQuizScreen")
-.style.display = "block";
-
-showNinjaQuestion();
-
-}
-
-
-/* =====================================
-   SHOW NINJA QUESTION
-===================================== */
-
-function showNinjaQuestion() {
-
-const q =
-ninjaQuestions[ninjaCurrentQuestion];
-
-document.getElementById("ninjaProgress")
-.textContent =
-"Question " +
-(ninjaCurrentQuestion + 1) +
-" / " +
-ninjaQuestions.length;
-
-document.getElementById("ninjaQuestion")
-.textContent =
-q.question;
-
-const answers =
-document.getElementById("ninjaAnswers");
-
-answers.innerHTML = "";
-
-
-q.answers.forEach(function(answer) {
-
-const button =
-document.createElement("button");
-
-button.className = "answer";
-
-button.textContent =
-answer.text;
-
-button.onclick = function() {
-
-selectNinjaAnswer(button, answer.ninja);
-
-};
-
-answers.appendChild(button);
-
-});
-
-}
-
-
-/* =====================================
-   SELECT NINJA ANSWER
-===================================== */
-
-function selectNinjaAnswer(
-button,
-ninja
-) {
-
-const buttons =
-document.querySelectorAll(
-"#ninjaAnswers .answer"
-);
-
-buttons.forEach(function(btn) {
-
-btn.disabled = true;
-
-});
-
-
-button.classList.add("correct");
-
-ninjaScores[ninja]++;
-
-document.getElementById("ninjaNextButton")
-.style.display = "block";
-
-}
-
-
-/* =====================================
-   NEXT NINJA QUESTION
-===================================== */
-
-document.getElementById("ninjaNextButton")
-.onclick = function() {
-
-ninjaCurrentQuestion++;
-
-if (
-ninjaCurrentQuestion >=
-ninjaQuestions.length
-) {
-
-showNinjaResult();
-
-} else {
-
-document.getElementById("ninjaNextButton")
-.style.display = "none";
-
-showNinjaQuestion();
-
-}
-
+let ninjaScores = {
+  Kai: 0,
+  Jay: 0,
+  Cole: 0,
+  Zane: 0
 };
 
 
-/* =====================================
-   NINJA RESULT
-===================================== */
+/* Start Quiz 2 */
+
+function startQuiz2() {
+
+  hideAll();
+
+  document.getElementById("quiz2").classList.remove("hidden");
+
+  quiz2Current = 0;
+
+  ninjaScores = {
+    Kai: 0,
+    Jay: 0,
+    Cole: 0,
+    Zane: 0
+  };
+
+  showQuiz2Question();
+}
+
+
+/* Show Quiz 2 Question */
+
+function showQuiz2Question() {
+
+  const question = quiz2Questions[quiz2Current];
+
+  document.getElementById("quiz2Progress").textContent =
+    "Question " + (quiz2Current + 1) +
+    " of " + quiz2Questions.length;
+
+  document.getElementById("quiz2Question").textContent =
+    question.question;
+
+  const answersDiv =
+    document.getElementById("quiz2Answers");
+
+  answersDiv.innerHTML = "";
+
+  question.answers.forEach(function(answer, index) {
+
+    const button = document.createElement("button");
+
+    button.className = "answer-button";
+
+    button.textContent =
+      String.fromCharCode(65 + index) + ". " + answer;
+
+    button.onclick = function() {
+      answerQuiz2(index, button);
+    };
+
+    answersDiv.appendChild(button);
+
+  });
+}
+
+
+/* Answer Quiz 2 */
+
+function answerQuiz2(selected, clickedButton) {
+
+  const question = quiz2Questions[quiz2Current];
+
+  const buttons =
+    document.querySelectorAll("#quiz2Answers button");
+
+  buttons.forEach(function(button) {
+    button.disabled = true;
+  });
+
+  const ninja =
+    question.scores[selected];
+
+  ninjaScores[ninja]++;
+
+  clickedButton.classList.add("correct");
+
+  setTimeout(function() {
+
+    quiz2Current++;
+
+    if (quiz2Current < quiz2Questions.length) {
+
+      showQuiz2Question();
+
+    } else {
+
+      showNinjaResult();
+
+    }
+
+  }, 400);
+}
+
+
+/* Ninja Result */
 
 function showNinjaResult() {
 
-let winner = "Lloyd";
+  hideAll();
 
-let highest = -1;
+  document.getElementById("quiz2Result").classList.remove("hidden");
 
+  let winner = "Kai";
+  let highest = -1;
 
-for (let ninja in ninjaScores) {
+  for (let ninja in ninjaScores) {
 
-if (ninjaScores[ninja] > highest) {
+    if (ninjaScores[ninja] > highest) {
 
-highest =
-ninjaScores[ninja];
+      highest = ninjaScores[ninja];
 
-winner =
-ninja;
+      winner = ninja;
 
-}
+    }
 
-}
+  }
 
+  const descriptions = {
 
-const descriptions = {
+    Kai:
+      "You are Kai! 🔥 Brave, determined and always ready for action.",
 
-Lloyd:
-"💚 You are Lloyd!<br><br>" +
-"You are brave, caring and a natural leader.",
+    Jay:
+      "You are Jay! ⚡ Funny, energetic and full of ideas.",
 
-Sora:
-"💜 You are Sora!<br><br>" +
-"You are creative, clever and determined.",
+    Cole:
+      "You are Cole! 🪨 Strong, loyal and dependable.",
 
-Kai:
-"❤️ You are Kai!<br><br>" +
-"You are brave, passionate and always ready for action.",
+    Zane:
+      "You are Zane! ❄️ Calm, intelligent and thoughtful."
 
-Zane:
-"🤍 You are Zane!<br><br>" +
-"You are intelligent, calm and extremely loyal.",
+  };
 
-Jay:
-"💙 You are Jay!<br><br>" +
-"You are funny, energetic and full of personality.",
+  document.getElementById("ninjaResult").textContent =
+    "You are " + winner + "!";
 
-Nya:
-"💙 You are Nya!<br><br>" +
-"You are strong, independent and caring.",
-
-Cole:
-"🖤 You are Cole!<br><br>" +
-"You are strong, loyal and always there for your friends."
-
-};
-
-
-document.getElementById("ninjaQuizScreen")
-.style.display = "none";
-
-document.getElementById("ninjaResultScreen")
-.style.display = "block";
-
-document.getElementById("ninjaResult")
-.innerHTML =
-descriptions[winner];
-
+  document.getElementById("ninjaDescription").textContent =
+    descriptions[winner];
 }
 
 
-/* =====================================
-   NINJA QUIZ AGAIN
-===================================== */
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
-document.getElementById("ninjaAgainButton")
-.onclick = function() {
+function hideAll() {
 
-startNinjaQuiz();
+  document.getElementById("home").classList.add("hidden");
 
-};
+  document.getElementById("quiz1").classList.add("hidden");
 
+  document.getElementById("quiz1Result").classList.add("hidden");
 
-/* =====================================
-   BACK TO MAIN QUIZ
-===================================== */
+  document.getElementById("quiz2").classList.add("hidden");
 
-document.getElementById("backToMainButton")
-.onclick = function() {
-
-document.getElementById("ninjaResultScreen")
-.style.display = "none";
-
-document.getElementById("mainQuiz")
-.style.display = "block";
-
-currentQuestion = 0;
-score = 0;
-
-showQuestion();
-
-};
+  document.getElementById("quiz2Result").classList.add("hidden");
+}
 
 
-/* =====================================
-   BUTTON FROM MAIN RESULTS
-===================================== */
+function goHome() {
 
-document.getElementById("goNinjaButton"
-.onclick = function() {
+  hideAll();
 
-startNinjaQuiz();
-
-};
-
-
-/* =====================================
-   START
-===================================== */
-
-showQuestion();
+  document.getElementById("home").classList.remove("hidden");
+}
 
 </script>
 
