@@ -2,1578 +2,1254 @@
 <html lang="en">
 
 <head>
+<meta charset="UTF-8">
 
-    <meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="theme-color"
+content="#111111">
 
-    <meta name="theme-color"
-          content="#111111">
+<meta name="apple-mobile-web-app-capable"
+content="yes">
 
-    <meta name="apple-mobile-web-app-capable"
-          content="yes">
+<meta name="apple-mobile-web-app-status-bar-style"
+content="black">
 
-    <meta name="apple-mobile-web-app-status-bar-style"
-          content="black">
+<meta name="apple-mobile-web-app-title"
+content="Ninjago Quiz">
 
-    <meta name="apple-mobile-web-app-title"
-          content="Ninjago Quiz">
+<title>Ninjago Master Quiz</title>
 
-    <title>Ninjago Master Quiz</title>
+<link rel="icon"
+type="image/png"
+sizes="192x192"
+href="icon-192.png">
 
-    <!-- 🥷 NINJAGO APP ICON -->
+<link rel="apple-touch-icon"
+sizes="192x192"
+href="icon-192.png">
 
-    <link rel="icon"
-          type="image/png"
-          sizes="192x192"
-          href="icon-192.png">
+<link rel="manifest"
+href="manifest.json">
 
-    <link rel="apple-touch-icon"
-          sizes="192x192"
-          href="icon-192.png">
+<style>
 
-    <!-- 📱 APP MANIFEST -->
+* {
+    box-sizing: border-box;
+}
 
-    <link rel="manifest"
-          href="manifest.json">
+body {
+    margin: 0;
+    min-height: 100vh;
 
+    font-family: Arial, sans-serif;
 
-    <style>
+    background:
+        linear-gradient(
+            135deg,
+            #111111,
+            #252525
+        );
 
-        * {
-            box-sizing: border-box;
-        }
+    color: white;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        body {
+    padding: 20px;
+}
 
-            margin: 0;
+.quiz {
+    width: 100%;
+    max-width: 700px;
 
-            min-height: 100vh;
+    background: #1d1d1d;
 
-            font-family: Arial, sans-serif;
+    border-radius: 20px;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #111111,
-                    #252525
-                );
+    padding: 30px;
 
-            color: white;
+    box-shadow:
+        0 10px 40px
+        rgba(0,0,0,0.6);
+}
 
-            display: flex;
+h1 {
+    text-align: center;
+    margin-top: 0;
+    font-size: 32px;
+}
 
-            justify-content: center;
+.subtitle {
+    text-align: center;
+    color: #bbbbbb;
+    margin-bottom: 25px;
+}
 
-            align-items: center;
+.top {
+    display: flex;
+    justify-content: space-between;
 
-            padding: 20px;
-        }
+    margin-bottom: 20px;
 
+    font-weight: bold;
+}
 
-        .quiz {
+#difficulty {
+    color: #ffcc00;
+}
 
-            width: 100%;
+#question {
+    font-size: 24px;
+    line-height: 1.4;
 
-            max-width: 700px;
+    margin: 25px 0;
 
-            background: #1d1d1d;
+    text-align: center;
+}
 
-            border-radius: 20px;
+.answer {
+    width: 100%;
 
-            padding: 30px;
+    padding: 16px;
 
-            box-shadow:
-                0 10px 40px
-                rgba(0,0,0,0.6);
-        }
+    margin: 8px 0;
 
+    border: 2px solid #444;
 
-        h1 {
+    border-radius: 12px;
 
-            text-align: center;
+    background: #303030;
 
-            margin-top: 0;
+    color: white;
 
-            font-size: 32px;
-        }
+    font-size: 17px;
 
+    cursor: pointer;
 
-        .subtitle {
+    transition: 0.2s;
+}
 
-            text-align: center;
+.answer:hover {
+    background: #454545;
+    transform: scale(1.01);
+}
 
-            color: #bbbbbb;
+.answer:disabled {
+    cursor: default;
+}
 
-            margin-bottom: 25px;
-        }
+.correct {
+    background: #16803c !important;
+    border-color: #35d878 !important;
+}
 
+.wrong {
+    background: #a52a2a !important;
+    border-color: #ff6666 !important;
+}
 
-        .top {
+#next {
+    width: 100%;
 
-            display: flex;
+    margin-top: 20px;
 
-            justify-content: space-between;
+    padding: 15px;
 
-            margin-bottom: 20px;
+    border: none;
 
-            font-weight: bold;
-        }
+    border-radius: 12px;
 
+    background: #ffcc00;
 
-        #difficulty {
+    color: #111;
 
-            color: #ffcc00;
-        }
+    font-size: 18px;
 
+    font-weight: bold;
 
-        #question {
+    cursor: pointer;
 
-            font-size: 24px;
+    display: none;
+}
 
-            line-height: 1.4;
+#next:hover {
+    background: #ffe066;
+}
 
-            margin: 25px 0;
+#result {
+    display: none;
+    text-align: center;
+}
 
-            text-align: center;
-        }
+#finalScore {
+    font-size: 42px;
+    color: #ffcc00;
+}
 
+#rank {
+    font-size: 21px;
+    line-height: 1.5;
+}
 
-        .answer {
+#restart {
+    margin-top: 20px;
 
-            width: 100%;
+    padding: 15px 30px;
 
-            padding: 16px;
+    border: none;
 
-            margin: 8px 0;
+    border-radius: 12px;
 
-            border: 2px solid #444;
+    background: #ffcc00;
 
-            border-radius: 12px;
+    font-size: 18px;
 
-            background: #303030;
+    font-weight: bold;
 
-            color: white;
+    cursor: pointer;
+}
 
-            font-size: 17px;
+#restart:hover {
+    background: #ffe066;
+}
 
-            cursor: pointer;
+#ninjaButton {
+    display: block;
 
-            transition: 0.2s;
-        }
+    margin: 20px auto 0;
 
+    padding: 15px 25px;
 
-        .answer:hover {
+    font-size: 18px;
 
-            background: #454545;
+    border: none;
 
-            transform: scale(1.01);
-        }
+    border-radius: 12px;
 
+    background: #ffcc00;
 
-        .answer:disabled {
+    color: #111;
 
-            cursor: default;
-        }
+    font-weight: bold;
 
+    cursor: pointer;
+}
 
-        .correct {
+#ninjaButton:hover {
+    background: #ffe066;
+}
 
-            background:
-                #16803c !important;
-
-            border-color:
-                #35d878 !important;
-        }
-
-
-        .wrong {
-
-            background:
-                #a52a2a !important;
-
-            border-color:
-                #ff6666 !important;
-        }
-
-
-        #next {
-
-            width: 100%;
-
-            margin-top: 20px;
-
-            padding: 15px;
-
-            border: none;
-
-            border-radius: 12px;
-
-            background: #ffcc00;
-
-            color: #111;
-
-            font-size: 18px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            display: none;
-        }
-
-
-        #next:hover {
-
-            background: #ffe066;
-        }
-
-
-        #result {
-
-            display: none;
-
-            text-align: center;
-        }
-
-
-        #finalScore {
-
-            font-size: 42px;
-
-            color: #ffcc00;
-        }
-
-
-        #rank {
-
-            font-size: 21px;
-
-            line-height: 1.5;
-        }
-
-
-        #restart {
-
-            margin-top: 20px;
-
-            padding: 15px 30px;
-
-            border: none;
-
-            border-radius: 12px;
-
-            background: #ffcc00;
-
-            font-size: 18px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-        }
-
-
-        #restart:hover {
-
-            background: #ffe066;
-        }
-
-
-    </style>
-
+</style>
 </head>
 
 
 <body>
 
-
 <div class="quiz">
 
+<div id="game">
 
-    <!-- ========================= -->
-    <!-- QUIZ -->
-    <!-- ========================= -->
+<h1>
+🥷 NINJAGO QUIZ 🥷
+</h1>
 
+<div class="subtitle">
+The questions get harder
+as you progress.
+</div>
 
-    <div id="game">
+<div class="top">
 
+<span id="progress"></span>
 
-        <h1>
-            🥷 NINJAGO QUIZ 🥷
-        </h1>
+<span id="difficulty"></span>
 
+</div>
 
-        <div class="subtitle">
+<div id="question"></div>
 
-            The questions get harder
-            as you progress.
+<div id="answers"></div>
 
-        </div>
-
-
-        <div class="top">
-
-            <span id="progress"></span>
-
-            <span id="difficulty"></span>
-
-        </div>
-
-
-        <div id="question"></div>
-
-
-        <div id="answers"></div>
-
-
-        <button id="next">
-
-            Next Question →
-
-        </button>
-
-
-    </div>
-
-
-
-    <!-- ========================= -->
-    <!-- RESULTS -->
-    <!-- ========================= -->
-
-
-    <div id="result">
-
-
-        <h1>
-            🏆 QUIZ COMPLETE 🏆
-        </h1>
-
-
-        <div id="finalScore"></div>
-
-
-        <p id="rank"></p>
-
-
-        <button id="restart">
-
-            🥷 Play Again
-
-        </button>
-
-
-    </div>
-
+<button id="next">
+Next Question →
+</button>
 
 </div>
 
 
+<div id="result">
+
+<h1>
+🏆 QUIZ COMPLETE 🏆
+</h1>
+
+<div id="finalScore"></div>
+
+<p id="rank"></p>
+
+<button id="restart">
+🥷 Play Again
+</button>
+
+</div>
+
+
+<button id="ninjaButton">
+🥷 Which Ninja Are You?
+</button>
+
+</div>
+
 
 <script>
 
-
 /* =========================================
-   QUESTIONS
+   FIRST QUIZ QUESTIONS
 ========================================= */
-
 
 const questions = [
 
-
-    /* =========================
-       HARD
-    ========================= */
-
-
-    {
-
-        difficulty: "HARD",
-
-        question:
-            "What element does Kai control?",
-
-        answers:
-            [
-                "Fire",
-                "Lightning",
-                "Earth",
-                "Ice"
-            ],
-
-        correct: "Fire"
-
-    },
-
-
-    {
-
-        difficulty: "HARD",
-
-        question:
-            "What is the name of Cole's mother?",
-
-        answers:
-            [
-                "Lilly",
-                "Maya",
-                "Misako",
-                "Selma"
-            ],
-
-        correct: "Lilly"
-
-    },
-
-
-    {
-
-        difficulty: "HARD",
-
-        question:
-            "Who is the last of the Anacondrai?",
-
-        answers:
-            [
-                "Pythor",
-                "Skales",
-                "Fangtom",
-                "Skalidor"
-            ],
-
-        correct: "Pythor"
-
-    },
-
-
-    {
-
-        difficulty: "HARD",
-
-        question:
-            "What is Zane's elemental power?",
-
-        answers:
-            [
-                "Ice",
-                "Energy",
-                "Water",
-                "Wind"
-            ],
-
-        correct: "Ice"
-
-    },
-
-
-    {
-
-        difficulty: "HARD",
-
-        question:
-            "Who is Lloyd's mother?",
-
-        answers:
-            [
-                "Misako",
-                "Maya",
-                "Faith",
-                "Lilly"
-            ],
-
-        correct: "Misako"
-
-    },
-
-
-    /* =========================
-       VERY HARD
-    ========================= */
-
-
-    {
-
-        difficulty: "VERY HARD",
-
-        question:
-            "What was the name of Morro's dragon?",
-
-        answers:
-            [
-                "Wrayth",
-                "Rocky",
-                "Stormbringer",
-                "Griffin"
-            ],
-
-        correct: "Wrayth"
-
-    },
-
-
-    {
-
-        difficulty: "VERY HARD",
-
-        question:
-            "Which Golden Weapon is associated with Earth?",
-
-        answers:
-            [
-                "Scythe of Quakes",
-                "Sword of Fire",
-                "Nunchucks of Lightning",
-                "Shurikens of Ice"
-            ],
-
-        correct:
-            "Scythe of Quakes"
-
-    },
-
-
-    {
-
-        difficulty: "VERY HARD",
-
-        question:
-            "Who was the leader of the Stone Army?",
-
-        answers:
-            [
-                "General Kozu",
-                "General Cryptor",
-                "General Vex",
-                "General Machia"
-            ],
-
-        correct:
-            "General Kozu"
-
-    },
-
-
-    {
-
-        difficulty: "VERY HARD",
-
-        question:
-            "What was Morro's elemental power?",
-
-        answers:
-            [
-                "Wind",
-                "Ghost",
-                "Air",
-                "Spirit"
-            ],
-
-        correct: "Wind"
-
-    },
-
-
-    {
-
-        difficulty: "VERY HARD",
-
-        question:
-            "What was the name of the realm ruled by the Overlord?",
-
-        answers:
-            [
-                "Dark Island",
-                "Cursed Realm",
-                "Djinjago",
-                "Cloud Kingdom"
-            ],
-
-        correct: "Dark Island"
-
-    },
-
-
-    /* =========================
-       EXPERT
-    ========================= */
-
-
-    {
-
-        difficulty: "EXPERT",
-
-        question:
-            "Who was the original Master of Ice before Zane?",
-
-        answers:
-            [
-                "Dr. Julien",
-                "Dr. Borg",
-                "Griffin Turner",
-                "Mikhail"
-            ],
-
-        correct: "Dr. Julien"
-
-    },
-
-
-    {
-
-        difficulty: "EXPERT",
-
-        question:
-            "Which elemental master controls Smoke?",
-
-        answers:
-            [
-                "Ash",
-                "Shade",
-                "Bolobo",
-                "Griffin Turner"
-            ],
-
-        correct: "Ash"
-
-    },
-
-
-    {
-
-        difficulty: "EXPERT",
-
-        question:
-            "What is Skylor's elemental power?",
-
-        answers:
-            [
-                "Amber",
-                "Energy",
-                "Absorption",
-                "Copy"
-            ],
-
-        correct: "Amber"
-
-    },
-
-
-    {
-
-        difficulty: "EXPERT",
-
-        question:
-            "Who was the leader of the Time Twins?",
-
-        answers:
-            [
-                "Krux",
-                "Acronix",
-                "Chen",
-                "Clouse"
-            ],
-
-        correct: "Krux"
-
-    },
-
-
-    {
-
-        difficulty: "EXPERT",
-
-        question:
-            "Which ninja became a ghost during the events involving Morro?",
-
-        answers:
-            [
-                "Cole",
-                "Jay",
-                "Kai",
-                "Lloyd"
-            ],
-
-        correct: "Cole"
-
-    },
-
-
-    /* =========================
-       INSANE
-    ========================= */
-
-
-    {
-
-        difficulty: "INSANE",
-
-        question:
-            "What are the names of the four Time Blades?",
-
-        answers:
-            [
-                "Forward, Reverse, Pause, Slow-Mo",
-                "Past, Present, Future, Eternity",
-                "Speed, Stop, Reverse, Advance",
-                "Time, Space, Age, Future"
-            ],
-
-        correct:
-            "Forward, Reverse, Pause, Slow-Mo"
-
-    },
-
-
-    {
-
-        difficulty: "INSANE",
-
-        question:
-            "What was the name of the island where Master Chen held his tournament?",
-
-        answers:
-            [
-                "Chen's Island",
-                "Stiix",
-                "Dark Island",
-                "Djinjago"
-            ],
-
-        correct:
-            "Chen's Island"
-
-    },
-
-
-    {
-
-        difficulty: "INSANE",
-
-        question:
-            "Which ninja was originally intended to be the Black Ninja?",
-
-        answers:
-            [
-                "Cole",
-                "Kai",
-                "Jay",
-                "Zane"
-            ],
-
-        correct: "Cole"
-
-    },
-
-
-    {
-
-        difficulty: "INSANE",
-
-        question:
-            "Who released the Great Devourer?",
-
-        answers:
-            [
-                "Pythor",
-                "Garmadon",
-                "Skales",
-                "Chen"
-            ],
-
-        correct: "Pythor"
-
-    },
-
-
-    /* =========================
-       5,000 HOUR FAN
-    ========================= */
-
-
-    {
-
-        difficulty: "5,000-HOUR FAN",
-
-        question:
-            "Which elemental master possesses the power of Nature?",
-
-        answers:
-            [
-                "Bolobo",
-                "Griffin Turner",
-                "Shade",
-                "Jacob"
-            ],
-
-        correct: "Bolobo"
-
-    },
-
-
-    {
-
-        difficulty: "5,000-HOUR FAN",
-
-        question:
-            "Which elemental master possesses the power of Speed?",
-
-        answers:
-            [
-                "Griffin Turner",
-                "Karlof",
-                "Shade",
-                "Tox"
-            ],
-
-        correct:
-            "Griffin Turner"
-
-    },
-
-
-    {
-
-        difficulty: "5,000-HOUR FAN",
-
-        question:
-            "Which elemental master possesses the power of Metal?",
-
-        answers:
-            [
-                "Karlof",
-                "Griffin Turner",
-                "Bolobo",
-                "Ash"
-            ],
-
-        correct: "Karlof"
-
-    },
-
-
-    {
-
-        difficulty: "5,000-HOUR FAN",
-
-        question:
-            "Which elemental master possesses the power of Shadow?",
-
-        answers:
-            [
-                "Shade",
-                "Ash",
-                "Bolobo",
-                "Jacob"
-            ],
-
-        correct: "Shade"
-
-    },
-
-
-    /* =========================
-       ABSURD
-    ========================= */
-
-
-    {
-
-        difficulty: "ABSURD",
-
-        question:
-            "Which Serpentine tribe specializes in hypnosis?",
-
-        answers:
-            [
-                "Hypnobrai",
-                "Venomari",
-                "Fangpyre",
-                "Constrictai"
-            ],
-
-        correct: "Hypnobrai"
-
-    },
-
-
-    {
-
-        difficulty: "ABSURD",
-
-        question:
-            "Which Serpentine tribe specializes in poison?",
-
-        answers:
-            [
-                "Venomari",
-                "Hypnobrai",
-                "Fangpyre",
-                "Constrictai"
-            ],
-
-        correct: "Venomari"
-
-    },
-
-
-    {
-
-        difficulty: "ABSURD",
-
-        question:
-            "Which Serpentine tribe was known for enormous strength?",
-
-        answers:
-            [
-                "Constrictai",
-                "Hypnobrai",
-                "Venomari",
-                "Fangpyre"
-            ],
-
-        correct: "Constrictai"
-
-    },
-
-
-    /* =========================
-       FINAL BOSS
-    ========================= */
-
-
-    {
-
-        difficulty: "FINAL BOSS",
-
-        question:
-            "Who was the first student trained by Master Wu?",
-
-        answers:
-            [
-                "Morro",
-                "Garmadon",
-                "Lloyd",
-                "Cole"
-            ],
-
-        correct: "Morro"
-
-    },
-
-
-    {
-
-        difficulty: "FINAL BOSS",
-
-        question:
-            "Who was responsible for creating the Nindroids?",
-
-        answers:
-            [
-                "Dr. Cyrus Borg",
-                "Dr. Julien",
-                "Master Chen",
-                "The Overlord"
-            ],
-
-        correct:
-            "Dr. Cyrus Borg"
-
-    },
-
-
-    {
-
-        difficulty: "FINAL BOSS",
-
-        question:
-            "What was the name of Garmadon's giant mech?",
-
-        answers:
-            [
-                "Garmatron",
-                "Garmadon's Colossus",
-                "Destruction",
-                "Mega Garmadon"
-            ],
-
-        correct: "Garmatron"
-
-    },
-
-
-    {
-
-        difficulty: "FINAL BOSS",
-
-        question:
-            "What were the names of the First Spinjitzu Master's two sons?",
-
-        answers:
-            [
-                "Wu and Garmadon",
-                "Lloyd and Garmadon",
-                "Wu and Morro",
-                "Garmadon and Chen"
-            ],
-
-        correct:
-            "Wu and Garmadon"
-
-    }
+{
+difficulty: "HARD",
+question: "What element does Kai control?",
+answers: [
+"Fire",
+"Lightning",
+"Earth",
+"Ice"
+],
+correct: "Fire"
+},
+
+{
+difficulty: "HARD",
+question: "What is the name of Cole's mother?",
+answers: [
+"Lilly",
+"Maya",
+"Misako",
+"Selma"
+],
+correct: "Lilly"
+},
+
+{
+difficulty: "HARD",
+question: "Who is the last of the Anacondrai?",
+answers: [
+"Pythor",
+"Skales",
+"Fangtom",
+"Skalidor"
+],
+correct: "Pythor"
+},
+
+{
+difficulty: "HARD",
+question: "What is Zane's elemental power?",
+answers: [
+"Ice",
+"Energy",
+"Water",
+"Wind"
+],
+correct: "Ice"
+},
+
+{
+difficulty: "HARD",
+question: "Who is Lloyd's mother?",
+answers: [
+"Misako",
+"Maya",
+"Faith",
+"Lilly"
+],
+correct: "Misako"
+},
+
+
+{
+difficulty: "VERY HARD",
+question: "What was the name of Morro's dragon?",
+answers: [
+"Wrayth",
+"Rocky",
+"Stormbringer",
+"Griffin"
+],
+correct: "Wrayth"
+},
+
+{
+difficulty: "VERY HARD",
+question: "Which Golden Weapon is associated with Earth?",
+answers: [
+"Scythe of Quakes",
+"Sword of Fire",
+"Nunchucks of Lightning",
+"Shurikens of Ice"
+],
+correct: "Scythe of Quakes"
+},
+
+{
+difficulty: "VERY HARD",
+question: "Who was the leader of the Stone Army?",
+answers: [
+"General Kozu",
+"General Cryptor",
+"General Vex",
+"General Machia"
+],
+correct: "General Kozu"
+},
+
+{
+difficulty: "VERY HARD",
+question: "What was Morro's elemental power?",
+answers: [
+"Wind",
+"Ghost",
+"Air",
+"Spirit"
+],
+correct: "Wind"
+},
+
+{
+difficulty: "VERY HARD",
+question: "What was the name of the realm ruled by the Overlord?",
+answers: [
+"Dark Island",
+"Cursed Realm",
+"Djinjago",
+"Cloud Kingdom"
+],
+correct: "Dark Island"
+},
+
+
+{
+difficulty: "EXPERT",
+question: "Who was the original Master of Ice before Zane?",
+answers: [
+"Dr. Julien",
+"Dr. Borg",
+"Griffin Turner",
+"Mikhail"
+],
+correct: "Dr. Julien"
+},
+
+{
+difficulty: "EXPERT",
+question: "Which elemental master controls Smoke?",
+answers: [
+"Ash",
+"Shade",
+"Bolobo",
+"Griffin Turner"
+],
+correct: "Ash"
+},
+
+{
+difficulty: "EXPERT",
+question: "What is Skylor's elemental power?",
+answers: [
+"Amber",
+"Energy",
+"Absorption",
+"Copy"
+],
+correct: "Amber"
+},
+
+{
+difficulty: "EXPERT",
+question: "Who was the leader of the Time Twins?",
+answers: [
+"Krux",
+"Acronix",
+"Chen",
+"Clouse"
+],
+correct: "Krux"
+},
+
+{
+difficulty: "EXPERT",
+question: "Which ninja became a ghost during the events involving Morro?",
+answers: [
+"Cole",
+"Jay",
+"Kai",
+"Lloyd"
+],
+correct: "Cole"
+},
+
+
+{
+difficulty: "INSANE",
+question: "What are the names of the four Time Blades?",
+answers: [
+"Forward, Reverse, Pause, Slow-Mo",
+"Past, Present, Future, Eternity",
+"Speed, Stop, Reverse, Advance",
+"Time, Space, Age, Future"
+],
+correct: "Forward, Reverse, Pause, Slow-Mo"
+},
+
+{
+difficulty: "INSANE",
+question: "What was the name of the island where Master Chen held his tournament?",
+answers: [
+"Chen's Island",
+"Stiix",
+"Dark Island",
+"Djinjago"
+],
+correct: "Chen's Island"
+},
+
+{
+difficulty: "INSANE",
+question: "Which ninja was originally intended to be the Black Ninja?",
+answers: [
+"Cole",
+"Kai",
+"Jay",
+"Zane"
+],
+correct: "Cole"
+},
+
+{
+difficulty: "INSANE",
+question: "Who released the Great Devourer?",
+answers: [
+"Pythor",
+"Garmadon",
+"Skales",
+"Chen"
+],
+correct: "Pythor"
+},
+
+
+{
+difficulty: "5,000-HOUR FAN",
+question: "Which elemental master possesses the power of Nature?",
+answers: [
+"Bolobo",
+"Griffin Turner",
+"Shade",
+"Jacob"
+],
+correct: "Bolobo"
+},
+
+{
+difficulty: "5,000-HOUR FAN",
+question: "Which elemental master possesses the power of Speed?",
+answers: [
+"Griffin Turner",
+"Karlof",
+"Shade",
+"Tox"
+],
+correct: "Griffin Turner"
+},
+
+{
+difficulty: "5,000-HOUR FAN",
+question: "Which elemental master possesses the power of Metal?",
+answers: [
+"Karlof",
+"Griffin Turner",
+"Bolobo",
+"Ash"
+],
+correct: "Karlof"
+},
+
+{
+difficulty: "5,000-HOUR FAN",
+question: "Which elemental master possesses the power of Shadow?",
+answers: [
+"Shade",
+"Ash",
+"Bolobo",
+"Jacob"
+],
+correct: "Shade"
+},
+
+
+{
+difficulty: "ABSURD",
+question: "Which Serpentine tribe specializes in hypnosis?",
+answers: [
+"Hypnobrai",
+"Venomari",
+"Fangpyre",
+"Constrictai"
+],
+correct: "Hypnobrai"
+},
+
+{
+difficulty: "ABSURD",
+question: "Which Serpentine tribe specializes in poison?",
+answers: [
+"Venomari",
+"Hypnobrai",
+"Fangpyre",
+"Constrictai"
+],
+correct: "Venomari"
+},
+
+{
+difficulty: "ABSURD",
+question: "Which Serpentine tribe was known for enormous strength?",
+answers: [
+"Constrictai",
+"Hypnobrai",
+"Venomari",
+"Fangpyre"
+],
+correct: "Constrictai"
+},
+
+
+{
+difficulty: "FINAL BOSS",
+question: "Who was the first student trained by Master Wu?",
+answers: [
+"Morro",
+"Garmadon",
+"Lloyd",
+"Cole"
+],
+correct: "Morro"
+},
+
+{
+difficulty: "FINAL BOSS",
+question: "Who was responsible for creating the Nindroids?",
+answers: [
+"Dr. Cyrus Borg",
+"Dr. Julien",
+"Master Chen",
+"The Overlord"
+],
+correct: "Dr. Cyrus Borg"
+},
+
+{
+difficulty: "FINAL BOSS",
+question: "What was the name of Garmadon's giant mech?",
+answers: [
+"Garmatron",
+"Garmadon's Colossus",
+"Destruction",
+"Mega Garmadon"
+],
+correct: "Garmatron"
+},
+
+{
+difficulty: "FINAL BOSS",
+question: "What were the names of the First Spinjitzu Master's two sons?",
+answers: [
+"Wu and Garmadon",
+"Lloyd and Garmadon",
+"Wu and Morro",
+"Garmadon and Chen"
+],
+correct: "Wu and Garmadon"
+}
 
 ];
 
 
-
 /* =========================================
-   GAME VARIABLES
+   FIRST QUIZ VARIABLES
 ========================================= */
-
 
 let currentQuestion = 0;
 
 let score = 0;
 
-
-
 const questionBox =
-    document.getElementById("question");
-
+document.getElementById("question");
 
 const answersBox =
-    document.getElementById("answers");
-
+document.getElementById("answers");
 
 const nextButton =
-    document.getElementById("next");
-
+document.getElementById("next");
 
 
 /* =========================================
    SHUFFLE
 ========================================= */
 
-
 function shuffle(array) {
 
-    for (
-        let i = array.length - 1;
-        i > 0;
-        i--
-    ) {
+for (
+let i = array.length - 1;
+i > 0;
+i--
+) {
 
-        const j =
-            Math.floor(
-                Math.random() * (i + 1)
-            );
+const j =
+Math.floor(
+Math.random() * (i + 1)
+);
 
+[
+array[i],
+array[j]
+] =
+[
+array[j],
+array[i]
+];
 
-        [
-            array[i],
-            array[j]
-        ] =
-        [
-            array[j],
-            array[i]
-        ];
+}
 
-    }
-
-    return array;
+return array;
 }
 
 
-
 /* =========================================
-   SHOW QUESTION
+   SHOW FIRST QUIZ QUESTION
 ========================================= */
-
 
 function showQuestion() {
 
-    const q =
-        questions[currentQuestion];
+const q =
+questions[currentQuestion];
 
+document.getElementById(
+"progress"
+).textContent =
+"Question " +
+(currentQuestion + 1) +
+" / " +
+questions.length;
 
-    document.getElementById(
-        "progress"
-    ).textContent =
+document.getElementById(
+"difficulty"
+).textContent =
+q.difficulty;
 
-        "Question " +
-        (currentQuestion + 1) +
-        " / " +
-        questions.length;
+questionBox.textContent =
+q.question;
 
+answersBox.innerHTML = "";
 
-    document.getElementById(
-        "difficulty"
-    ).textContent =
+nextButton.style.display =
+"none";
 
-        q.difficulty;
+const answers =
+shuffle([...q.answers]);
 
+answers.forEach(
+function(answer) {
 
-    questionBox.textContent =
-        q.question;
+const button =
+document.createElement(
+"button"
+);
 
+button.className =
+"answer";
 
-    answersBox.innerHTML = "";
+button.textContent =
+answer;
 
+button.onclick =
+function() {
 
-    nextButton.style.display =
-        "none";
+checkAnswer(
+button,
+answer,
+q.correct
+);
 
+};
 
-    const answers =
-        shuffle(
-            [...q.answers]
-        );
-
-
-    answers.forEach(
-        function(answer) {
-
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.className =
-                "answer";
-
-
-            button.textContent =
-                answer;
-
-
-            button.onclick =
-                function() {
-
-
-                    checkAnswer(
-                        button,
-                        answer,
-                        q.correct
-                    );
-
-
-                };
-
-
-            answersBox.appendChild(
-                button
-            );
-
-
-        }
-    );
+answersBox.appendChild(
+button
+);
 
 }
+);
 
+}
 
 
 /* =========================================
-   CHECK ANSWER
+   CHECK FIRST QUIZ ANSWER
 ========================================= */
 
-
 function checkAnswer(
-    button,
-    selected,
-    correct
+button,
+selected,
+correct
 ) {
 
+const buttons =
+document.querySelectorAll(
+".answer"
+);
 
-    const buttons =
-        document.querySelectorAll(
-            ".answer"
-        );
+buttons.forEach(
+function(b) {
 
+b.disabled = true;
 
-    buttons.forEach(
-        function(b) {
+if (
+b.textContent ===
+correct
+) {
 
-
-            b.disabled =
-                true;
-
-
-            if (
-                b.textContent ===
-                correct
-            ) {
-
-                b.classList.add(
-                    "correct"
-                );
-
-            }
-
-
-        }
-    );
-
-
-    if (
-        selected ===
-        correct
-    ) {
-
-
-        score++;
-
-
-        button.classList.add(
-            "correct"
-        );
-
-
-    } else {
-
-
-        button.classList.add(
-            "wrong"
-        );
-
-
-    }
-
-
-    nextButton.style.display =
-        "block";
+b.classList.add(
+"correct"
+);
 
 }
 
+}
+);
+
+
+if (
+selected ===
+correct
+) {
+
+score++;
+
+button.classList.add(
+"correct"
+);
+
+} else {
+
+button.classList.add(
+"wrong"
+);
+
+}
+
+nextButton.style.display =
+"block";
+
+}
 
 
 /* =========================================
    NEXT QUESTION
 ========================================= */
 
-
 nextButton.onclick =
 function() {
 
+currentQuestion++;
 
-    currentQuestion++;
+if (
+currentQuestion >=
+questions.length
+) {
 
+showResults();
 
-    if (
-        currentQuestion >=
-        questions.length
-    ) {
+} else {
 
+showQuestion();
 
-        showResults();
-
-
-    } else {
-
-
-        showQuestion();
-
-
-    }
+}
 
 };
-
 
 
 /* =========================================
    RESULTS
 ========================================= */
 
-
 function showResults() {
 
+document.getElementById(
+"game"
+).style.display =
+"none";
 
-    document.getElementById(
-        "game"
-    ).style.display =
-        "none";
+document.getElementById(
+"result"
+).style.display =
+"block";
 
+const percentage =
+Math.round(
+(score /
+questions.length) *
+100
+);
 
-    document.getElementById(
-        "result"
-    ).style.display =
-        "block";
+document.getElementById(
+"finalScore"
+).textContent =
+score +
+" / " +
+questions.length +
+" (" +
+percentage +
+"%)";
 
-
-    const percentage =
-        Math.round(
-            (score /
-            questions.length) *
-            100
-        );
-
-
-    document.getElementById(
-        "finalScore"
-    ).textContent =
-
-        score +
-        " / " +
-        questions.length +
-        " (" +
-        percentage +
-        "%)";
+let rank;
 
 
-    let rank;
+if (
+score ===
+questions.length
+) {
 
+rank =
+"👑 FIRST SPINJITZU MASTER LEVEL 👑<br><br>" +
+"Perfect score. Absolutely legendary.";
 
-    if (
-        score ===
-        questions.length
-    ) {
+} else if (
+score >= 27
+) {
 
+rank =
+"🐉 LEGENDARY NINJA<br><br>" +
+"Your Ninjago knowledge is insane.";
 
-        rank =
-            "👑 FIRST SPINJITZU MASTER LEVEL 👑<br><br>" +
-            "Perfect score. Absolutely legendary.";
+} else if (
+score >= 23
+) {
 
+rank =
+"🥷 MASTER OF SPINJITZU<br><br>" +
+"You are a true Ninjago expert.";
 
-    } else if (
-        score >= 27
-    ) {
+} else if (
+score >= 18
+) {
 
+rank =
+"⚔️ ELITE NINJA<br><br>" +
+"You survived the hardest questions.";
 
-        rank =
-            "🐉 LEGENDARY NINJA<br><br>" +
-            "Your Ninjago knowledge is insane.";
+} else if (
+score >= 13
+) {
 
+rank =
+"🔥 EXPERIENCED NINJA<br><br>" +
+"Very impressive.";
 
-    } else if (
-        score >= 23
-    ) {
+} else if (
+score >= 8
+) {
 
+rank =
+"🐲 NINJA IN TRAINING<br><br>" +
+"Keep training!";
 
-        rank =
-            "🥷 MASTER OF SPINJITZU<br><br>" +
-            "You are a true Ninjago expert.";
+} else {
 
+rank =
+"🐍 THE SERPENTINE WON<br><br>" +
+"Back to the monastery!";
 
-    } else if (
-        score >= 18
-    ) {
+}
 
-
-        rank =
-            "⚔️ ELITE NINJA<br><br>" +
-            "You survived the hardest questions.";
-
-
-    } else if (
-        score >= 13
-    ) {
-
-
-        rank =
-            "🔥 EXPERIENCED NINJA<br><br>" +
-            "Very impressive.";
-
-
-    } else if (
-        score >= 8
-    ) {
-
-
-        rank =
-            "🐲 NINJA IN TRAINING<br><br>" +
-            "Keep training!";
-
-
-    } else {
-
-
-        rank =
-            "🐍 THE SERPENTINE WON<br><br>" +
-            "Back to the monastery!";
-
-    }
-
-
-    document.getElementById(
-        "rank"
-    ).innerHTML =
-        rank;
+document.getElementById(
+"rank"
+).innerHTML =
+rank;
 
 }
 
 
-
 /* =========================================
-   RESTART
+   RESTART FIRST QUIZ
 ========================================= */
 
-
 document.getElementById(
-    "restart"
+"restart"
 ).onclick =
 function() {
 
+currentQuestion = 0;
 
-    currentQuestion = 0;
+score = 0;
 
-    score = 0;
+document.getElementById(
+"result"
+).style.display =
+"none";
 
+document.getElementById(
+"game"
+).style.display =
+"block";
 
-    document.getElementById(
-        "result"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "game"
-    ).style.display =
-  // WHICH NINJA ARE YOU?
-const ninjaQuestions = [
-  {
-    question: "What do you do when your friends are in trouble?",
-    answers: [
-      ["Protect them", "Lloyd"],
-      ["Make a clever plan", "Sora"],
-      ["Charge into action", "Wyldfyre"],
-      ["Stay calm", "Zane"]
-    ]
-  },
-  {
-    question: "What sounds most fun?",
-    answers: [
-      ["Go on an adventure", "Riyu"],
-      ["Build something", "Sora"],
-      ["Train", "Kai"],
-      ["Make everyone laugh", "Jay"]
-    ]
-  },
-  {
-    question: "Which describes you best?",
-    answers: [
-      ["Brave", "Kai"],
-      ["Caring", "Nya"],
-      ["Strong", "Cole"],
-      ["Smart", "Zane"]
-    ]
-  }
-];
-
-let ninjaScores = {
-  Sora: 0,
-  Arin: 0,
-  Wyldfyre: 0,
-  Frak: 0,
-  Euphrasia: 0,
-  Riyu: 0,
-  Lloyd: 0,
-  Nya: 0,
-  Cole: 0,
-  Jay: 0,
-  Kai: 0,
-  Zane: 0
-};
-
-let ninjaQuestionNumber = 0;
-
-function startNinjaQuiz() {
-  ninjaQuestionNumber = 0;
-
-  for (let ninja in ninjaScores) {
-    ninjaScores[ninja] = 0;
-  }
-
-  showNinjaQuestion();
-}
-
-function showNinjaQuestion() {
-  const q = ninjaQuestions[ninjaQuestionNumber];
-
-  const question =
-    prompt(q.question);
-
-  if (question === null) {
-    return;
-  }
-
-  let choice = prompt(
-    "Choose:\n\n" +
-    "1. " + q.answers[0][0] + "\n" +
-    "2. " + q.answers[1][0] + "\n" +
-    "3. " + q.answers[2][0] + "\n" +
-    "4. " + q.answers[3][0]
-  );
-
-  let number = Number(choice);
-
-  if (number >= 1 && number <= 4) {
-    const ninja =
-      q.answers[number - 1][1];
-
-    ninjaScores[ninja]++;
-  }
-
-  ninjaQuestionNumber++;
-
-  if (
-    ninjaQuestionNumber <
-    ninjaQuestions.length
-  ) {
-    showNinjaQuestion();
-  } else {
-    showNinjaResult();
-  }
-}
-
-function showNinjaResult() {
-  let winner = "Sora";
-  let highest = -1;
-
-  for (let ninja in ninjaScores) {
-    if (ninjaScores[ninja] > highest) {
-      highest = ninjaScores[ninja];
-      winner = ninja;
-    }
-  }
-
-  alert(
-    "🥷 YOU ARE " +
-    winner +
-    "!\n\n" +
-    "Your ninja personality match is " +
-    winner + "!"
-  );
-}      ;
-
-
-    showQuestion();
+showQuestion();
 
 };
-
 
 
 /* =========================================
-   START GAME
+   WHICH NINJA ARE YOU?
 ========================================= */
 
+const ninjaQuestions = [
+
+{
+question:
+"What do you do when your friends are in trouble?",
+
+answers: [
+["Protect them", "Lloyd"],
+["Make a clever plan", "Sora"],
+["Charge into action", "Wyldfyre"],
+["Stay calm", "Zane"]
+]
+},
+
+{
+question:
+"What sounds most fun?",
+
+answers: [
+["Go on an adventure", "Riyu"],
+["Build something", "Sora"],
+["Train", "Kai"],
+["Make everyone laugh", "Jay"]
+]
+},
+
+{
+question:
+"Which describes you best?",
+
+answers: [
+["Brave", "Kai"],
+["Caring", "Nya"],
+["Strong", "Cole"],
+["Smart", "Zane"]
+]
+}
+
+];
+
+
+let ninjaScores = {
+
+Sora: 0,
+Arin: 0,
+Wyldfyre: 0,
+Frak: 0,
+Euphrasia: 0,
+Riyu: 0,
+Lloyd: 0,
+Nya: 0,
+Cole: 0,
+Jay: 0,
+Kai: 0,
+Zane: 0
+
+};
+
+
+let ninjaQuestionNumber = 0;
+
+
+/* =========================================
+   START NINJA PERSONALITY QUIZ
+========================================= */
+
+function startNinjaQuiz() {
+
+ninjaQuestionNumber = 0;
+
+for (
+let ninja in ninjaScores
+) {
+
+ninjaScores[ninja] = 0;
+
+}
+
+showNinjaQuestion();
+
+}
+
+
+/* =========================================
+   SHOW NINJA PERSONALITY QUESTION
+========================================= */
+
+function showNinjaQuestion() {
+
+const q =
+ninjaQuestions[
+ninjaQuestionNumber
+];
+
+const question =
+prompt(q.question);
+
+if (
+question === null
+) {
+
+return;
+
+}
+
+
+const choice =
+prompt(
+"Choose:\n\n" +
+
+"1. " +
+q.answers[0][0] +
+"\n" +
+
+"2. " +
+q.answers[1][0] +
+"\n" +
+
+"3. " +
+q.answers[2][0] +
+"\n" +
+
+"4. " +
+q.answers[3][0]
+);
+
+
+const number =
+Number(choice);
+
+
+if (
+number >= 1 &&
+number <= 4
+) {
+
+const ninja =
+q.answers[
+number - 1
+][1];
+
+ninjaScores[ninja]++;
+
+}
+
+
+ninjaQuestionNumber++;
+
+
+if (
+ninjaQuestionNumber <
+ninjaQuestions.length
+) {
+
+showNinjaQuestion();
+
+} else {
+
+showNinjaResult();
+
+}
+
+}
+
+
+/* =========================================
+   NINJA PERSONALITY RESULT
+========================================= */
+
+function showNinjaResult() {
+
+let winner = "Sora";
+
+let highest = -1;
+
+
+for (
+let ninja in ninjaScores
+) {
+
+if (
+ninjaScores[ninja] >
+highest
+) {
+
+highest =
+ninjaScores[ninja];
+
+winner =
+ninja;
+
+}
+
+}
+
+
+alert(
+
+"🥷 YOU ARE " +
+winner +
+"!\n\n" +
+
+"Your ninja personality match is " +
+winner +
+"!"
+
+);
+
+}
+
+
+/* =========================================
+   IMPORTANT:
+   THIS BUTTON STARTS THE SECOND QUIZ
+========================================= */
+
+document.getElementById(
+"ninjaButton"
+).onclick =
+function() {
+
+startNinjaQuiz();
+
+};
+
+
+/* =========================================
+   START FIRST QUIZ
+========================================= */
 
 showQuestion();
 
 </script>
 
-<button onclick="showQuestion()" style="
-  display:block;
-  margin:20px auto;
-  padding:15px 25px;
-  font-size:18px;
-  border-radius:12px;
-  cursor:pointer;
-">
-🥷 Which Ninja Are You?
-</button>
 </body>
-
 </html>
