@@ -1431,7 +1431,122 @@ function() {
     document.getElementById(
         "game"
     ).style.display =
-        "block";
+  // WHICH NINJA ARE YOU?
+const ninjaQuestions = [
+  {
+    question: "What do you do when your friends are in trouble?",
+    answers: [
+      ["Protect them", "Lloyd"],
+      ["Make a clever plan", "Sora"],
+      ["Charge into action", "Wyldfyre"],
+      ["Stay calm", "Zane"]
+    ]
+  },
+  {
+    question: "What sounds most fun?",
+    answers: [
+      ["Go on an adventure", "Riyu"],
+      ["Build something", "Sora"],
+      ["Train", "Kai"],
+      ["Make everyone laugh", "Jay"]
+    ]
+  },
+  {
+    question: "Which describes you best?",
+    answers: [
+      ["Brave", "Kai"],
+      ["Caring", "Nya"],
+      ["Strong", "Cole"],
+      ["Smart", "Zane"]
+    ]
+  }
+];
+
+let ninjaScores = {
+  Sora: 0,
+  Arin: 0,
+  Wyldfyre: 0,
+  Frak: 0,
+  Euphrasia: 0,
+  Riyu: 0,
+  Lloyd: 0,
+  Nya: 0,
+  Cole: 0,
+  Jay: 0,
+  Kai: 0,
+  Zane: 0
+};
+
+let ninjaQuestionNumber = 0;
+
+function startNinjaQuiz() {
+  ninjaQuestionNumber = 0;
+
+  for (let ninja in ninjaScores) {
+    ninjaScores[ninja] = 0;
+  }
+
+  showNinjaQuestion();
+}
+
+function showNinjaQuestion() {
+  const q = ninjaQuestions[ninjaQuestionNumber];
+
+  const question =
+    prompt(q.question);
+
+  if (question === null) {
+    return;
+  }
+
+  let choice = prompt(
+    "Choose:\n\n" +
+    "1. " + q.answers[0][0] + "\n" +
+    "2. " + q.answers[1][0] + "\n" +
+    "3. " + q.answers[2][0] + "\n" +
+    "4. " + q.answers[3][0]
+  );
+
+  let number = Number(choice);
+
+  if (number >= 1 && number <= 4) {
+    const ninja =
+      q.answers[number - 1][1];
+
+    ninjaScores[ninja]++;
+  }
+
+  ninjaQuestionNumber++;
+
+  if (
+    ninjaQuestionNumber <
+    ninjaQuestions.length
+  ) {
+    showNinjaQuestion();
+  } else {
+    showNinjaResult();
+  }
+}
+
+function showNinjaResult() {
+  let winner = "Sora";
+  let highest = -1;
+
+  for (let ninja in ninjaScores) {
+    if (ninjaScores[ninja] > highest) {
+      highest = ninjaScores[ninja];
+      winner = ninja;
+    }
+  }
+
+  alert(
+    "🥷 YOU ARE " +
+    winner +
+    "!\n\n" +
+    "Your ninja personality match is " +
+    winner + "!"
+  );
+}      "block";
 
 
     showQuestion();
