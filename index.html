@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ninjago Master Quiz</title>
+<title>Ninjago Quiz</title>
 
 <style>
 * {
@@ -14,7 +14,7 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #111111, #252525);
+  background: linear-gradient(135deg, #101010, #292929);
   color: white;
   display: flex;
   justify-content: center;
@@ -24,29 +24,40 @@ body {
 
 .container {
   width: 100%;
-  max-width: 650px;
+  max-width: 700px;
 }
 
 .card {
-  background: #1d1d1d;
+  background: #1c1c1c;
   border-radius: 20px;
   padding: 30px;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.45);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
   text-align: center;
 }
 
 h1 {
-  font-size: 34px;
+  font-size: 36px;
   margin-top: 0;
 }
 
 h2 {
   font-size: 25px;
+  line-height: 1.35;
 }
 
 p {
   font-size: 18px;
   line-height: 1.5;
+}
+
+.hidden {
+  display: none;
+}
+
+.progress {
+  color: #aaa;
+  margin-bottom: 20px;
+  font-size: 16px;
 }
 
 button {
@@ -55,7 +66,7 @@ button {
   margin: 8px 0;
   border: none;
   border-radius: 12px;
-  background: #333333;
+  background: #353535;
   color: white;
   font-size: 17px;
   cursor: pointer;
@@ -63,7 +74,7 @@ button {
 }
 
 button:hover {
-  background: #444444;
+  background: #4a4a4a;
   transform: scale(1.01);
 }
 
@@ -92,25 +103,44 @@ button:active {
   background: #a51d2d !important;
 }
 
-.hidden {
-  display: none;
-}
-
 .score {
-  font-size: 25px;
-  font-weight: bold;
-  margin: 20px 0;
-}
-
-.progress {
-  color: #aaaaaa;
-  margin-bottom: 20px;
-}
-
-.result {
   font-size: 28px;
   font-weight: bold;
   margin: 20px 0;
+}
+
+.result {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.result-description {
+  font-size: 19px;
+}
+
+.character-list {
+  color: #bbb;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+@media (max-width: 500px) {
+  .card {
+    padding: 22px;
+  }
+
+  h1 {
+    font-size: 29px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  button {
+    font-size: 16px;
+  }
 }
 </style>
 </head>
@@ -122,71 +152,85 @@ button:active {
   <!-- HOME -->
   <div id="home" class="card">
     <h1>🥷 NINJAGO QUIZ 🥷</h1>
-    <p>How well do you know Ninjago?</p>
 
-    <button class="start-button" onclick="startQuiz1()">
-      Start Ninjago Knowledge Quiz
+    <p>Think you know Ninjago?</p>
+
+    <button class="start-button" onclick="startKnowledgeQuiz()">
+      Ninjago Hard Lore Quiz
     </button>
 
-    <button class="start-button" onclick="startQuiz2()">
-      Start Ninja Personality Quiz
+    <button class="start-button" onclick="startPersonalityQuiz()">
+      Which Ninjago Character Are You?
     </button>
+
+    <div class="character-list">
+      Arin • Sora • Wyldfyre • Euphrasia • Frak • Riyu •
+      Lloyd • Nya • Cole • Jay • Zane • Kai
+    </div>
   </div>
 
 
-  <!-- QUIZ 1 -->
-  <div id="quiz1" class="card hidden">
-    <div class="progress" id="quiz1Progress"></div>
+  <!-- KNOWLEDGE QUIZ -->
+  <div id="knowledgeQuiz" class="card hidden">
 
-    <h2 id="quiz1Question"></h2>
+    <div class="progress" id="knowledgeProgress"></div>
 
-    <div id="quiz1Answers"></div>
+    <h2 id="knowledgeQuestion"></h2>
+
+    <div id="knowledgeAnswers"></div>
+
   </div>
 
 
-  <!-- QUIZ 1 RESULT -->
-  <div id="quiz1Result" class="card hidden">
+  <!-- KNOWLEDGE RESULT -->
+  <div id="knowledgeResult" class="card hidden">
+
     <h1>🥷 Quiz Complete!</h1>
 
-    <div class="score" id="quiz1Score"></div>
+    <div class="score" id="knowledgeScore"></div>
 
-    <p id="quiz1Message"></p>
+    <p id="knowledgeMessage"></p>
 
-    <button class="start-button" onclick="startQuiz2()">
-      Take the Ninja Personality Quiz
+    <button class="start-button" onclick="startPersonalityQuiz()">
+      Which Ninjago Character Are You?
     </button>
 
     <button onclick="goHome()">
       Back to Home
     </button>
+
   </div>
 
 
-  <!-- QUIZ 2 -->
-  <div id="quiz2" class="card hidden">
-    <div class="progress" id="quiz2Progress"></div>
+  <!-- PERSONALITY QUIZ -->
+  <div id="personalityQuiz" class="card hidden">
 
-    <h2 id="quiz2Question"></h2>
+    <div class="progress" id="personalityProgress"></div>
 
-    <div id="quiz2Answers"></div>
+    <h2 id="personalityQuestion"></h2>
+
+    <div id="personalityAnswers"></div>
+
   </div>
 
 
-  <!-- QUIZ 2 RESULT -->
-  <div id="quiz2Result" class="card hidden">
-    <h1>🥷 Your Ninja Result 🥷</h1>
+  <!-- PERSONALITY RESULT -->
+  <div id="personalityResult" class="card hidden">
 
-    <div class="result" id="ninjaResult"></div>
+    <h1>🥷 Your Ninjago Character</h1>
 
-    <p id="ninjaDescription"></p>
+    <div class="result" id="characterResult"></div>
 
-    <button class="start-button" onclick="startQuiz1()">
-      Play Knowledge Quiz Again
+    <p class="result-description" id="characterDescription"></p>
+
+    <button class="start-button" onclick="startPersonalityQuiz()">
+      Try Again
     </button>
 
     <button onclick="goHome()">
       Back to Home
     </button>
+
   </div>
 
 </div>
@@ -195,137 +239,228 @@ button:active {
 <script>
 
 /* =========================================================
-   QUIZ 1 — NINJAGO KNOWLEDGE
+   QUIZ 1 — HARD NINJAGO LORE
 ========================================================= */
 
-const quiz1Questions = [
+const knowledgeQuestions = [
 
   {
-    question: "Who is the Green Ninja?",
-    answers: ["Kai", "Lloyd", "Jay", "Cole"],
-    correct: 1
-  },
-
-  {
-    question: "Which ninja is associated with fire?",
-    answers: ["Kai", "Zane", "Cole", "Jay"],
+    question: "Which Serpentine tribe is led by Skales?",
+    answers: ["Hypnobrai", "Fangpyre", "Constrictai", "Anacondrai"],
     correct: 0
   },
 
   {
-    question: "Which ninja is associated with lightning?",
-    answers: ["Cole", "Jay", "Kai", "Zane"],
+    question: "Who created Zane?",
+    answers: ["Cyrus Borg", "Dr. Julien", "Master Wu", "Ray"],
     correct: 1
   },
 
   {
-    question: "Which ninja is associated with ice?",
-    answers: ["Zane", "Lloyd", "Kai", "Cole"],
+    question: "Which of these is one of the original Golden Weapons?",
+    answers: ["Sword of Fire", "Blade of Time", "Techno Blade", "Fang Blade"],
     correct: 0
   },
 
   {
-    question: "Which ninja is associated with earth?",
-    answers: ["Jay", "Cole", "Zane", "Kai"],
+    question: "Which ninja possesses the elemental power of Energy?",
+    answers: ["Kai", "Lloyd", "Cole", "Jay"],
     correct: 1
   },
 
   {
-    question: "Who is the leader of the ninja team?",
-    answers: ["Kai", "Lloyd", "Jay", "Cole"],
-    correct: 1
-  },
-
-  {
-    question: "What is the name of the ninja's flying ship?",
-    answers: ["Destiny's Bounty", "Lightning Raider", "Bounty Hunter", "Ninja Flyer"],
+    question: "What creature was responsible for the destruction of much of Ninjago City in the early Serpentine conflict?",
+    answers: ["The Great Devourer", "The Preeminent", "Firstbourne", "The Overlord"],
     correct: 0
   },
 
   {
-    question: "What is Lloyd's main element?",
-    answers: ["Fire", "Energy", "Ice", "Earth"],
+    question: "Who are Cole's parents?",
+    answers: [
+      "Ray and Maya",
+      "Lou and Lilly",
+      "Ed and Edna",
+      "Garmadon and Misako"
+    ],
     correct: 1
   },
 
   {
-    question: "Who is the blue ninja?",
-    answers: ["Jay", "Kai", "Cole", "Zane"],
+    question: "Who is Lloyd's mother?",
+    answers: ["Maya", "Misako", "Mystaké", "Faith"],
+    correct: 1
+  },
+
+  {
+    question: "Who are Kai and Nya's parents?",
+    answers: [
+      "Lou and Lilly",
+      "Ed and Edna",
+      "Ray and Maya",
+      "Garmadon and Misako"
+    ],
+    correct: 2
+  },
+
+  {
+    question: "Which elemental master possesses the power of Amber?",
+    answers: ["Skylor", "Shade", "Griffin Turner", "Karlof"],
     correct: 0
   },
 
   {
-    question: "Who is the black ninja?",
-    answers: ["Cole", "Jay", "Kai", "Lloyd"],
+    question: "Which elemental master possesses the power of Metal?",
+    answers: ["Neuro", "Karlof", "Gravis", "Bolobo"],
+    correct: 1
+  },
+
+  {
+    question: "Which elemental master possesses the power of Mind?",
+    answers: ["Gravis", "Neuro", "Jacob", "Shade"],
+    correct: 1
+  },
+
+  {
+    question: "Who leads the Sons of Garmadon?",
+    answers: ["Pythor", "Harumi", "Aspheera", "Vex"],
+    correct: 1
+  },
+
+  {
+    question: "What is Harumi's title within the Sons of Garmadon?",
+    answers: ["The Quiet One", "The Ice Emperor", "The Skull Sorcerer", "The Golden Master"],
+    correct: 0
+  },
+
+  {
+    question: "Who is revealed to be the Ice Emperor?",
+    answers: ["Lloyd", "Zane", "Vex", "Aspheera"],
+    correct: 1
+  },
+
+  {
+    question: "Which realm is the original home of the Oni and Dragons?",
+    answers: [
+      "The First Realm",
+      "The Never-Realm",
+      "The Departed Realm",
+      "The Cursed Realm"
+    ],
+    correct: 0
+  },
+
+  {
+    question: "Who is the leader of the Dragon Hunters?",
+    answers: ["Faith", "Iron Baron", "Muzzard", "Heavy Metal"],
+    correct: 1
+  },
+
+  {
+    question: "What are the four weapons connected to the elemental power of Time called?",
+    answers: [
+      "The Golden Weapons",
+      "The Fang Blades",
+      "The Blades of Time",
+      "The Techno Blades"
+    ],
+    correct: 2
+  },
+
+  {
+    question: "Which Time Twin is the older brother?",
+    answers: ["Acronix", "Krux", "Wu", "Ray"],
+    correct: 1
+  },
+
+  {
+    question: "Who created Prime Empire?",
+    answers: ["Unagami", "Cyrus Borg", "Dr. Julien", "Master Chen"],
+    correct: 0
+  },
+
+  {
+    question: "Who is revealed to be the Skull Sorcerer?",
+    answers: ["Vangelis", "Trimaar", "Aspheera", "Vex"],
     correct: 0
   }
 
 ];
 
-let quiz1Current = 0;
-let quiz1Score = 0;
+let knowledgeIndex = 0;
+let knowledgeScore = 0;
 
 
-/* Start Quiz 1 */
+/* Start Knowledge Quiz */
 
-function startQuiz1() {
+function startKnowledgeQuiz() {
 
   hideAll();
 
-  document.getElementById("quiz1").classList.remove("hidden");
+  document
+    .getElementById("knowledgeQuiz")
+    .classList.remove("hidden");
 
-  quiz1Current = 0;
-  quiz1Score = 0;
+  knowledgeIndex = 0;
+  knowledgeScore = 0;
 
-  showQuiz1Question();
+  showKnowledgeQuestion();
 }
 
 
-/* Show Quiz 1 Question */
+/* Show Knowledge Question */
 
-function showQuiz1Question() {
+function showKnowledgeQuestion() {
 
-  const question = quiz1Questions[quiz1Current];
+  const question =
+    knowledgeQuestions[knowledgeIndex];
 
-  document.getElementById("quiz1Progress").textContent =
-    "Question " + (quiz1Current + 1) +
-    " of " + quiz1Questions.length;
+  document.getElementById("knowledgeProgress").textContent =
+    "Question " +
+    (knowledgeIndex + 1) +
+    " of " +
+    knowledgeQuestions.length;
 
-  document.getElementById("quiz1Question").textContent =
+  document.getElementById("knowledgeQuestion").textContent =
     question.question;
 
-  const answersDiv =
-    document.getElementById("quiz1Answers");
+  const answers =
+    document.getElementById("knowledgeAnswers");
 
-  answersDiv.innerHTML = "";
+  answers.innerHTML = "";
 
   question.answers.forEach(function(answer, index) {
 
-    const button = document.createElement("button");
+    const button =
+      document.createElement("button");
 
     button.className = "answer-button";
 
     button.textContent =
-      String.fromCharCode(65 + index) + ". " + answer;
+      String.fromCharCode(65 + index) +
+      ". " +
+      answer;
 
     button.onclick = function() {
-      answerQuiz1(index, button);
+      answerKnowledgeQuestion(index, button);
     };
 
-    answersDiv.appendChild(button);
+    answers.appendChild(button);
 
   });
 }
 
 
-/* Answer Quiz 1 */
+/* Answer Knowledge Question */
 
-function answerQuiz1(selected, clickedButton) {
+function answerKnowledgeQuestion(selected, clickedButton) {
 
-  const question = quiz1Questions[quiz1Current];
+  const question =
+    knowledgeQuestions[knowledgeIndex];
 
   const buttons =
-    document.querySelectorAll("#quiz1Answers button");
+    document.querySelectorAll(
+      "#knowledgeAnswers button"
+    );
 
   buttons.forEach(function(button) {
     button.disabled = true;
@@ -333,7 +468,7 @@ function answerQuiz1(selected, clickedButton) {
 
   if (selected === question.correct) {
 
-    quiz1Score++;
+    knowledgeScore++;
 
     clickedButton.classList.add("correct");
 
@@ -341,21 +476,25 @@ function answerQuiz1(selected, clickedButton) {
 
     clickedButton.classList.add("wrong");
 
-    buttons[question.correct].classList.add("correct");
+    buttons[question.correct]
+      .classList.add("correct");
 
   }
 
   setTimeout(function() {
 
-    quiz1Current++;
+    knowledgeIndex++;
 
-    if (quiz1Current < quiz1Questions.length) {
+    if (
+      knowledgeIndex <
+      knowledgeQuestions.length
+    ) {
 
-      showQuiz1Question();
+      showKnowledgeQuestion();
 
     } else {
 
-      showQuiz1Result();
+      showKnowledgeResult();
 
     }
 
@@ -363,245 +502,410 @@ function answerQuiz1(selected, clickedButton) {
 }
 
 
-/* Quiz 1 Result */
+/* Knowledge Result */
 
-function showQuiz1Result() {
+function showKnowledgeResult() {
 
   hideAll();
 
-  document.getElementById("quiz1Result").classList.remove("hidden");
+  document
+    .getElementById("knowledgeResult")
+    .classList.remove("hidden");
 
-  document.getElementById("quiz1Score").textContent =
-    quiz1Score + " / " + quiz1Questions.length;
+  document.getElementById("knowledgeScore").textContent =
+    knowledgeScore +
+    " / " +
+    knowledgeQuestions.length;
 
   let message;
 
-  if (quiz1Score === quiz1Questions.length) {
+  if (knowledgeScore === 20) {
 
-    message = "Master level! You really know your Ninjago! 🥷";
+    message =
+      "ABSOLUTE NINJAGO MASTER! 🥷🔥 You got every question right!";
 
-  } else if (quiz1Score >= 7) {
+  } else if (knowledgeScore >= 17) {
 
-    message = "Amazing! You know Ninjago really well!";
+    message =
+      "Legendary! You seriously know your Ninjago lore.";
 
-  } else if (quiz1Score >= 5) {
+  } else if (knowledgeScore >= 14) {
 
-    message = "Pretty good! You know your ninja stuff.";
+    message =
+      "Amazing! You're a true Ninjago fan.";
+
+  } else if (knowledgeScore >= 10) {
+
+    message =
+      "Pretty good! But there is still more lore to discover.";
 
   } else {
 
-    message = "Keep training, ninja! You can do better next time.";
+    message =
+      "Keep training, ninja! The hard quiz is not messing around.";
 
   }
 
-  document.getElementById("quiz1Message").textContent =
+  document.getElementById("knowledgeMessage").textContent =
     message;
 }
 
 
 /* =========================================================
-   QUIZ 2 — NINJA PERSONALITY
+   QUIZ 2 — WHICH CHARACTER ARE YOU?
 ========================================================= */
 
-const quiz2Questions = [
+const personalityQuestions = [
 
   {
-    question: "A villain attacks! What do you do?",
+    question: "A huge enemy appears. What do you do first?",
     answers: [
-      "Charge straight into battle!",
-      "Make a clever plan first.",
-      "Protect everyone around me.",
-      "Use a funny distraction!"
-    ],
-    scores: {
-      0: "Kai",
-      1: "Zane",
-      2: "Cole",
-      3: "Jay"
-    }
+      ["Arin", "Arin"],
+      ["Lloyd", "Lloyd"],
+      ["Wyldfyre", "Wyldfyre"],
+      ["Cole", "Cole"]
+    ]
   },
 
   {
-    question: "Which power would you choose?",
+    question: "Which quality describes you best?",
     answers: [
-      "Fire",
-      "Ice",
-      "Earth",
-      "Lightning"
-    ],
-    scores: {
-      0: "Kai",
-      1: "Zane",
-      2: "Cole",
-      3: "Jay"
-    }
+      ["Creative", "Sora"],
+      ["Fearless", "Wyldfyre"],
+      ["Calm", "Zane"],
+      ["Loyal", "Cole"]
+    ]
   },
 
   {
-    question: "What describes you best?",
+    question: "Pick a way to solve a difficult problem.",
     answers: [
-      "Brave and energetic",
-      "Calm and intelligent",
-      "Strong and dependable",
-      "Funny and energetic"
-    ],
-    scores: {
-      0: "Kai",
-      1: "Zane",
-      2: "Cole",
-      3: "Jay"
-    }
+      ["Build something", "Sora"],
+      ["Try again until I succeed", "Arin"],
+      ["Think carefully first", "Zane"],
+      ["Trust my instincts", "Kai"]
+    ]
   },
 
   {
-    question: "Your team needs help. What is your biggest strength?",
+    question: "What would you do if your friend was in danger?",
     answers: [
-      "Courage",
-      "Intelligence",
-      "Strength",
-      "Creativity"
-    ],
-    scores: {
-      0: "Kai",
-      1: "Zane",
-      2: "Cole",
-      3: "Jay"
-    }
+      ["Jump in immediately", "Kai"],
+      ["Make a smart plan", "Lloyd"],
+      ["Protect them no matter what", "Nya"],
+      ["Charge in without thinking", "Wyldfyre"]
+    ]
   },
 
   {
-    question: "Pick a place to train.",
+    question: "Which environment sounds best?",
     answers: [
-      "A volcano",
-      "A snowy mountain",
-      "A rocky cave",
-      "A high-tech workshop"
-    ],
-    scores: {
-      0: "Kai",
-      1: "Zane",
-      2: "Cole",
-      3: "Jay"
-    }
+      ["A futuristic city", "Sora"],
+      ["A huge mountain", "Cole"],
+      ["A wild jungle", "Wyldfyre"],
+      ["A peaceful monastery", "Lloyd"]
+    ]
   },
 
   {
-    question: "What matters most to you?",
+    question: "Which sounds most like you?",
     answers: [
-      "Courage",
-      "Knowledge",
-      "Loyalty",
-      "Having fun"
-    ],
-    scores: {
-      0: "Kai",
-      1: "Zane",
-      2: "Cole",
-      3: "Jay"
-    }
+      ["I ask lots of questions", "Arin"],
+      ["I think before I speak", "Zane"],
+      ["I love making people laugh", "Jay"],
+      ["I take charge", "Kai"]
+    ]
+  },
+
+  {
+    question: "What matters most in a team?",
+    answers: [
+      ["Trust", "Lloyd"],
+      ["Bravery", "Wyldfyre"],
+      ["Good ideas", "Sora"],
+      ["Strength", "Cole"]
+    ]
+  },
+
+  {
+    question: "Pick a superpower.",
+    answers: [
+      ["Lightning", "Jay"],
+      ["Water", "Nya"],
+      ["Energy", "Lloyd"],
+      ["Fire", "Kai"]
+    ]
+  },
+
+  {
+    question: "What would you do after winning a battle?",
+    answers: [
+      ["Celebrate!", "Jay"],
+      ["Check that everyone is okay", "Nya"],
+      ["Train for the next one", "Kai"],
+      ["Study what happened", "Zane"]
+    ]
+  },
+
+  {
+    question: "Which word sounds most like your personality?",
+    answers: [
+      ["Curious", "Arin"],
+      ["Inventive", "Sora"],
+      ["Wild", "Wyldfyre"],
+      ["Wise", "Euphrasia"]
+    ]
+  },
+
+  {
+    question: "What would you rather have?",
+    answers: [
+      ["A dragon companion", "Riyu"],
+      ["A powerful weapon", "Frak"],
+      ["A brilliant invention", "Sora"],
+      ["A legendary destiny", "Lloyd"]
+    ]
+  },
+
+  {
+    question: "Someone challenges you to a fight. You...",
+    answers: [
+      ["Accept immediately", "Frak"],
+      ["Try to avoid unnecessary fighting", "Euphrasia"],
+      ["Make a joke", "Jay"],
+      ["Get ready to defend your friends", "Nya"]
+    ]
+  },
+
+  {
+    question: "Which trait would you most want to improve?",
+    answers: [
+      ["Confidence", "Arin"],
+      ["Patience", "Wyldfyre"],
+      ["Leadership", "Lloyd"],
+      ["Relaxing", "Kai"]
+    ]
+  },
+
+  {
+    question: "Pick a teammate.",
+    answers: [
+      ["Someone clever", "Sora"],
+      ["Someone fearless", "Frak"],
+      ["Someone dependable", "Cole"],
+      ["Someone hilarious", "Jay"]
+    ]
+  },
+
+  {
+    question: "What kind of friend are you?",
+    answers: [
+      ["The protector", "Nya"],
+      ["The problem solver", "Zane"],
+      ["The energetic one", "Arin"],
+      ["The adventurous one", "Wyldfyre"]
+    ]
+  },
+
+  {
+    question: "Which sounds like the best adventure?",
+    answers: [
+      ["Exploring the skies", "Euphrasia"],
+      ["Discovering a new world", "Riyu"],
+      ["Building something amazing", "Sora"],
+      ["Fighting a powerful villain", "Kai"]
+    ]
+  },
+
+  {
+    question: "When things go wrong, what do you do?",
+    answers: [
+      ["Stay calm", "Zane"],
+      ["Keep everyone together", "Lloyd"],
+      ["Try something completely different", "Sora"],
+      ["Keep going no matter what", "Cole"]
+    ]
+  },
+
+  {
+    question: "Which would you rather be known for?",
+    answers: [
+      ["Being brave", "Frak"],
+      ["Being wise", "Euphrasia"],
+      ["Being loyal", "Cole"],
+      ["Being powerful", "Wyldfyre"]
+    ]
+  },
+
+  {
+    question: "What makes you happiest?",
+    answers: [
+      ["Making people laugh", "Jay"],
+      ["Helping people", "Nya"],
+      ["Learning something new", "Zane"],
+      ["Going on adventures", "Riyu"]
+    ]
+  },
+
+  {
+    question: "Choose your final ninja-style trait.",
+    answers: [
+      ["Never give up", "Arin"],
+      ["Always protect others", "Lloyd"],
+      ["Always be yourself", "Wyldfyre"],
+      ["Always stand with your friends", "Kai"]
+    ]
   }
 
 ];
 
-let quiz2Current = 0;
 
-let ninjaScores = {
-  Kai: 0,
-  Jay: 0,
+/*
+Each answer gives one point to the selected character.
+All 12 characters are possible results.
+*/
+
+let personalityIndex = 0;
+
+let personalityScores = {
+
+  Arin: 0,
+  Sora: 0,
+  Wyldfyre: 0,
+  Euphrasia: 0,
+  Frak: 0,
+  Riyu: 0,
+  Lloyd: 0,
+  Nya: 0,
   Cole: 0,
-  Zane: 0
+  Jay: 0,
+  Zane: 0,
+  Kai: 0
+
 };
 
 
-/* Start Quiz 2 */
+/* Start Personality Quiz */
 
-function startQuiz2() {
+function startPersonalityQuiz() {
 
   hideAll();
 
-  document.getElementById("quiz2").classList.remove("hidden");
+  document
+    .getElementById("personalityQuiz")
+    .classList.remove("hidden");
 
-  quiz2Current = 0;
+  personalityIndex = 0;
 
-  ninjaScores = {
-    Kai: 0,
-    Jay: 0,
+  personalityScores = {
+
+    Arin: 0,
+    Sora: 0,
+    Wyldfyre: 0,
+    Euphrasia: 0,
+    Frak: 0,
+    Riyu: 0,
+    Lloyd: 0,
+    Nya: 0,
     Cole: 0,
-    Zane: 0
+    Jay: 0,
+    Zane: 0,
+    Kai: 0
+
   };
 
-  showQuiz2Question();
+  showPersonalityQuestion();
 }
 
 
-/* Show Quiz 2 Question */
+/* Show Personality Question */
 
-function showQuiz2Question() {
+function showPersonalityQuestion() {
 
-  const question = quiz2Questions[quiz2Current];
+  const question =
+    personalityQuestions[personalityIndex];
 
-  document.getElementById("quiz2Progress").textContent =
-    "Question " + (quiz2Current + 1) +
-    " of " + quiz2Questions.length;
+  document.getElementById(
+    "personalityProgress"
+  ).textContent =
+    "Question " +
+    (personalityIndex + 1) +
+    " of " +
+    personalityQuestions.length;
 
-  document.getElementById("quiz2Question").textContent =
+  document.getElementById(
+    "personalityQuestion"
+  ).textContent =
     question.question;
 
-  const answersDiv =
-    document.getElementById("quiz2Answers");
+  const answers =
+    document.getElementById(
+      "personalityAnswers"
+    );
 
-  answersDiv.innerHTML = "";
+  answers.innerHTML = "";
 
   question.answers.forEach(function(answer, index) {
 
-    const button = document.createElement("button");
+    const button =
+      document.createElement("button");
 
     button.className = "answer-button";
 
     button.textContent =
-      String.fromCharCode(65 + index) + ". " + answer;
+      String.fromCharCode(65 + index) +
+      ". " +
+      answer[0];
 
     button.onclick = function() {
-      answerQuiz2(index, button);
+
+      answerPersonalityQuestion(
+        answer[1],
+        button
+      );
+
     };
 
-    answersDiv.appendChild(button);
+    answers.appendChild(button);
 
   });
 }
 
 
-/* Answer Quiz 2 */
+/* Answer Personality Question */
 
-function answerQuiz2(selected, clickedButton) {
-
-  const question = quiz2Questions[quiz2Current];
+function answerPersonalityQuestion(
+  character,
+  clickedButton
+) {
 
   const buttons =
-    document.querySelectorAll("#quiz2Answers button");
+    document.querySelectorAll(
+      "#personalityAnswers button"
+    );
 
   buttons.forEach(function(button) {
     button.disabled = true;
   });
 
-  const ninja =
-    question.scores[selected];
-
-  ninjaScores[ninja]++;
+  personalityScores[character]++;
 
   clickedButton.classList.add("correct");
 
   setTimeout(function() {
 
-    quiz2Current++;
+    personalityIndex++;
 
-    if (quiz2Current < quiz2Questions.length) {
+    if (
+      personalityIndex <
+      personalityQuestions.length
+    ) {
 
-      showQuiz2Question();
+      showPersonalityQuestion();
 
     } else {
 
-      showNinjaResult();
+      showPersonalityResult();
 
     }
 
@@ -609,24 +913,33 @@ function answerQuiz2(selected, clickedButton) {
 }
 
 
-/* Ninja Result */
+/* Personality Result */
 
-function showNinjaResult() {
+function showPersonalityResult() {
 
   hideAll();
 
-  document.getElementById("quiz2Result").classList.remove("hidden");
+  document
+    .getElementById("personalityResult")
+    .classList.remove("hidden");
 
-  let winner = "Kai";
-  let highest = -1;
+  let winner = "Arin";
 
-  for (let ninja in ninjaScores) {
+  let highestScore = -1;
 
-    if (ninjaScores[ninja] > highest) {
+  for (
+    const character in personalityScores
+  ) {
 
-      highest = ninjaScores[ninja];
+    if (
+      personalityScores[character] >
+      highestScore
+    ) {
 
-      winner = ninja;
+      highestScore =
+        personalityScores[character];
+
+      winner = character;
 
     }
 
@@ -634,24 +947,51 @@ function showNinjaResult() {
 
   const descriptions = {
 
-    Kai:
-      "You are Kai! 🔥 Brave, determined and always ready for action.",
+    Arin:
+      "You are Arin! You are determined, energetic, curious and never afraid to keep trying.",
 
-    Jay:
-      "You are Jay! ⚡ Funny, energetic and full of ideas.",
+    Sora:
+      "You are Sora! You are creative, intelligent and brilliant at finding new ways to solve problems.",
+
+    Wyldfyre:
+      "You are Wyldfyre! You are fearless, wild, energetic and completely yourself.",
+
+    Euphrasia:
+      "You are Euphrasia! You are thoughtful, independent and wise, with a strong sense of what is right.",
+
+    Frak:
+      "You are Frak! You are tough, brave and ready to stand up for yourself and your friends.",
+
+    Riyu:
+      "You are Riyu! You are adventurous, loyal, energetic and always ready to help your friends.",
+
+    Lloyd:
+      "You are Lloyd! You are a natural leader who cares deeply about your friends and is willing to carry great responsibility.",
+
+    Nya:
+      "You are Nya! You are determined, intelligent, protective and never afraid to prove yourself.",
 
     Cole:
-      "You are Cole! 🪨 Strong, loyal and dependable.",
+      "You are Cole! You are strong, dependable, loyal and always there when your team needs you.",
+
+    Jay:
+      "You are Jay! You are funny, energetic, creative and always capable of bringing some personality to the team.",
 
     Zane:
-      "You are Zane! ❄️ Calm, intelligent and thoughtful."
+      "You are Zane! You are calm, intelligent, thoughtful and incredibly loyal to the people you care about.",
 
+    Kai:
+      "You are Kai! You are passionate, courageous, competitive and fiercely protective of your friends."
   };
 
-  document.getElementById("ninjaResult").textContent =
+  document.getElementById(
+    "characterResult"
+  ).textContent =
     "You are " + winner + "!";
 
-  document.getElementById("ninjaDescription").textContent =
+  document.getElementById(
+    "characterDescription"
+  ).textContent =
     descriptions[winner];
 }
 
@@ -662,15 +1002,25 @@ function showNinjaResult() {
 
 function hideAll() {
 
-  document.getElementById("home").classList.add("hidden");
+  document
+    .getElementById("home")
+    .classList.add("hidden");
 
-  document.getElementById("quiz1").classList.add("hidden");
+  document
+    .getElementById("knowledgeQuiz")
+    .classList.add("hidden");
 
-  document.getElementById("quiz1Result").classList.add("hidden");
+  document
+    .getElementById("knowledgeResult")
+    .classList.add("hidden");
 
-  document.getElementById("quiz2").classList.add("hidden");
+  document
+    .getElementById("personalityQuiz")
+    .classList.add("hidden");
 
-  document.getElementById("quiz2Result").classList.add("hidden");
+  document
+    .getElementById("personalityResult")
+    .classList.add("hidden");
 }
 
 
@@ -678,7 +1028,9 @@ function goHome() {
 
   hideAll();
 
-  document.getElementById("home").classList.remove("hidden");
+  document
+    .getElementById("home")
+    .classList.remove("hidden");
 }
 
 </script>
